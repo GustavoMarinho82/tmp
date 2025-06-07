@@ -1,12 +1,22 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
-import java.time.DateTimeException;
 
 public class P2nX {
 	public static void main(String[] args) {
-	Pessoa pessoa = new Pessoa("Roger", "Silva Sauro", 1, 2, 2006, 15550007703L);
+	MinhaListaOrdenavel lista = new MinhaListaOrdenavel();
+	
+	lista.add(new Homem("Lucas", "Silva", 15, 3, 1995, "390.533.447-05", 75.5f, 1.80f));
+	lista.add(new Mulher("Mariana", "Lima", 12, 7, 1994, "168.241.620-50", 60.5f, 1.65f));
+	lista.add(new Homem("Carlos", "Oliveira", 2, 8, 1988, "732.151.490-01", 82.0f, 1.75f));
+	lista.add(new Mulher("Ana", "Ferreira", 9, 12, 1992, "529.982.247-25", 55.0f, 1.60f));
+	lista.add(new Homem("João", "Souza", 27, 11, 1990, "694.904.940-06", 70.2f, 1.78f));
+	lista.add(new Mulher("Juliana", "Pereira", 30, 9, 1999, "398.422.140-94", 58.3f, 1.68f));
+	lista.add(new Homem("Rafael", "Costa", 6, 5, 2000, "267.191.940-83", 68.0f, 1.70f));
+	lista.add(new Mulher("Camila", "Rocha", 18, 4, 1996, "855.982.050-20", 63.7f, 1.72f));
+	lista.add(new Homem("Fernando", "Almeida", 20, 1, 1985, "070.680.240-74", 90.3f, 1.85f));
+	lista.add(new Mulher("Patrícia", "Martins", 5, 10, 1987, "313.066.820-56", 59.4f, 1.62f));
 
-	System.out.println(pessoa);
+	System.out.println(lista);
 }
 	/*
 	// ATRIBUTOS
