@@ -17,23 +17,13 @@ public class MinhaListaOrdenavel {
 		}
 	};
 	
-	private static Comparator<PessoaIMC> dataNascC = new Comparator<>() {
+	private static Comparator<PessoaIMC> dataNascC = new Comparator<>() { // Serve para comparar idade tambem
 		@Override
 		public int compare (PessoaIMC p1, PessoaIMC p2) {
 			LocalDate dataNasc1 = p1.getDataNasc();
 			LocalDate dataNasc2 = p2.getDataNasc();
 
 			return dataNasc1.compareTo(dataNasc2);
-		}
-	};
-
-	private static Comparator<PessoaIMC> idadeC = new Comparator<>() {
-		@Override
-		public int compare (PessoaIMC p1, PessoaIMC p2) {
-			int idade1 = p1.getIdade();
-			int idade2 = p2.getIdade();
-
-			return idade1 - idade2;
 		}
 	};
 
@@ -80,8 +70,8 @@ public class MinhaListaOrdenavel {
 	private static Comparator<PessoaIMC> generoC = new Comparator<>() {
 		@Override
 		public int compare (PessoaIMC p1, PessoaIMC p2) {
-			int genero1 = (p1 instanceof Homem) ? 1 : 0;
-			int genero2 = (p2 instanceof Homem) ? 1 : 0;
+			int genero1 = (p1 instanceof Mulher) ? 1 : 0;
+			int genero2 = (p2 instanceof Mulher) ? 1 : 0;
 
 			return genero1 - genero2;
 		}
@@ -104,13 +94,9 @@ public class MinhaListaOrdenavel {
 			break;
 			case 2: Collections.sort(pessoasOrd, nomeC.reversed());
 			break;
-			case 3: Collections.sort(pessoasOrd, dataNascC);
+			case 3: case 6: Collections.sort(pessoasOrd, dataNascC);
 			break;
-			case 4: Collections.sort(pessoasOrd, dataNascC.reversed());
-			break;
-			case 5: Collections.sort(pessoasOrd, idadeC);
-			break;
-			case 6: Collections.sort(pessoasOrd, idadeC.reversed());
+			case 4: case 5: Collections.sort(pessoasOrd, dataNascC.reversed());
 			break;
 			case 7: Collections.sort(pessoasOrd, numCPFC);
 			break;
@@ -132,9 +118,9 @@ public class MinhaListaOrdenavel {
 			break;
 			case 16: Collections.sort(pessoasOrd, generoC.reversed());
 			break;
-			default: throw new IllegalArgumentException("Ordenação inexistente! Digite um número de 1 a 16.");
+			default: throw new IllegalArgumentException("Ordenacao inexistente! Digite um numero de 1 a 16.");
 		}
 
-		return pessoasOrd;		
+		return pessoasOrd;
 	}
 }

@@ -64,6 +64,6 @@ public abstract class PessoaIMC extends Pessoa {
 	
 	@Override
 	public String toString() {
-		return super.toString() + String.format("Peso: %.2f \nAltura: %.2f \n", peso, altura);
+		return super.toString() + String.format("Peso: %.2f kg \nAltura: %.2f m \n", peso, altura);
 	}
 }

@@ -120,9 +120,9 @@ public class Pessoa {
 
 	@Override
 	public String toString() {
-		String genero = (this instanceof Homem) ? "(Masculino)" : (this instanceof Mulher) ? "(Feminino)" : "";
+		String genero = (this instanceof Homem) ? "(Homem)" : (this instanceof Mulher) ? "(Mulher)" : "";
 		String dataFormatada = dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		
-		return String.format("Nome: %s %s %s \nData de Nascimento: %s \nIdade: %d \nCPF: %s \n", nome, sobreNome, genero, dataFormatada, getIdade(), ValidaCPF.formataCPF(numCPF));
+		return String.format("Nome: %s %s %s \nData de Nascimento: %s \nIdade: %d anos \nCPF: %s \n", nome, sobreNome, genero, dataFormatada, getIdade(), ValidaCPF.formataCPF(numCPF));
 	}
 }
