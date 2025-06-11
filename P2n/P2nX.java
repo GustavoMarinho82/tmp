@@ -1,7 +1,8 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-
+import java.util.NoSuchElementException;
+ 
 public class P2nX {
 	// ATRIBUTOS
 	private static Scanner teclado;
@@ -13,7 +14,7 @@ public class P2nX {
 		
 		teclado = new Scanner(System.in);
 		
-		realizarAcao(lista);
+		menuAcoes(lista);
 		
 		teclado.close();
 	}
@@ -32,39 +33,43 @@ public class P2nX {
 		lista.add(new Mulher("Nina", "Silva", 5, 10, 2007, "837.151.400-03", 42.4f, 1.62f));
 	}
 	
-	private static void realizarAcao(MinhaListaOrdenavel lista) {
-		while (true) {
+	private static void menuAcoes(MinhaListaOrdenavel lista) {
+		int opcao = 0;
+		
+		while (opcao != 2) {
 			try {
 				System.out.println("\nO que voce deseja fazer?");
 				System.out.println("1 - Imprimir a lista");
 				System.out.println("2 - Fechar o programa");
 				System.out.print("Digite o numero da opcao escolhida: ");
 				
-				int opcao = teclado.nextInt();
+				opcao = teclado.nextInt();
 				teclado.nextLine();
 				
 				switch (opcao) {
 					case 1: imprimirLista(lista);
 					break;	
+					
 					case 2: break;
-					default: throw new IllegalArgumentException("Opcao invalida! Digite 1 para imprimir a lista ou 2 para fechar o programa.");
-				}
-				
-				if (opcao == 2)
+					
+					default: System.err.println("Opcao invalida! Digite 1 para imprimir a lista ou 2 para fechar o programa.");
 					break;
-				
+				}
 			} catch (InputMismatchException e) {
-				System.err.println("Tipo invalido de opcao! Digite um numero.");
-				teclado.nextLine();
-				
-			} catch (IllegalArgumentException e) {
-				System.err.println(e.getMessage());
+				System.err.println("Erro: Tipo invalido de opcao! Digite um numero.");
+				teclado.nextLine();	
+
+			} catch (NoSuchElementException e) {
+				System.err.println("\nErro: Comando de EOF inserido! Encerrando o programa.");
+				break;
 			}
 		}
 	}
 	
 	private static void imprimirLista(MinhaListaOrdenavel lista) {
-		while (true) {
+		int criterio = 0;
+		
+		while (criterio < 1 || criterio > 16) {
 			try {
 				System.out.println("\nQual o seu criterio para ordenação?");
 				System.out.println("1 - Alfabetica (A-Z)");
@@ -85,7 +90,7 @@ public class P2nX {
 				System.out.println("16 - Genero (Mulheres - Homens)");
 				System.out.print("Digite o criterio escolhido: ");
 				
-				int criterio = teclado.nextInt();
+				criterio = teclado.nextInt();
 				teclado.nextLine();
 				
 				ArrayList<PessoaIMC> listaOrd = lista.ordena(criterio);
@@ -98,15 +103,14 @@ public class P2nX {
 				System.out.println("=================================");
 				System.out.print("Digite algo para continuar... ");
 				teclado.nextLine();
-				break;
-				
+
 			} catch (InputMismatchException e) {
-				System.err.println("Tipo inválido de opcao! Digite um numero.");
+				System.err.println("Erro: Tipo inválido de opcao! Digite um numero.");
 				teclado.nextLine();
 				
 			} catch (IllegalArgumentException e) {
-				System.err.println(e.getMessage());
-			}
+				System.err.println("Erro: " + e.getMessage());
+			} //NoSuchElementException nao esta sendo tratado aqui para ser propagado para a funcao menuAcoes
 		}
 	}	
 }
