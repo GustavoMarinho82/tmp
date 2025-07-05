@@ -4,15 +4,51 @@ def obterValorPeso(item):
 	# Retorna o valor por peso do item
 	return item["valor"] / item["peso"]
 
+def intercalarValorPeso(lista1, lista2):
+	# Função auxiliar de mergeSortValorPeso, retorna uma lista com os elementos de lista1 e lista2 intercalados
+	listaInter = []
+	i = j = 0
+
+	while (i < len(lista1)) and (j < len(lista2)):
+		if (obterValorPeso(lista1[i]) > obterValorPeso(lista2[j])):
+			listaInter.append(lista1[i])
+			i += 1
+			
+		else:
+			listaInter.append(lista2[j])
+			j += 1
+
+	listaInter.extend(lista1[i:])
+	listaInter.extend(lista2[j:])
+	
+	return listaInter
+
+def mergeSortValorPeso(itens):
+	# Retorna uma cópia de itens ordenada decrescentemente baseando-se no valor por peso de cada item
+	sublistas = [[item] for item in itens]
+
+	while (len(sublistas) > 1):
+		novaLista = []
+
+		for i in range(0, len(sublistas), 2):
+			if (i + 1 < len(sublistas)):
+				novaLista.append(intercalarValorPeso(sublistas[i], sublistas[i+1]))
+			
+			else:
+				novaLista.append(sublistas[i])
+
+		sublistas = novaLista
+
+	return sublistas[0] if sublistas else []
+
 def mochilaFracionaria(itens, pesoMax):
 	# Imprime a configuração de itens que possui o maior valor total, respeitando o peso máximo
 	pesoRestante = pesoMax
 	valorTotal = 0
-	itensCp = itens.copy()
 	
 	# Ordena decrescentemente a cópia da lista de itens baseando-se no valor por peso de cada item
-	itensCp.sort(key = obterValorPeso, reverse = True)
-	
+	itensCp = mergeSortValorPeso(itens)
+
 	print("Melhor configuração de itens para o peso máximo de {}: ".format(pesoMax))
 	
 	for item in itensCp:
@@ -22,7 +58,7 @@ def mochilaFracionaria(itens, pesoMax):
 			
 			print(" {} - Fracao: 1 | Valor: {} | Peso: {}".format(item["nome"], item["valor"], item["peso"]));
 
-		elif (pesoRestante > 0):
+		elif (pesoRestante > 0): # Essa condição serve para ignorar pesos negativos e para formatação do output 
 			fracao = pesoRestante / item["peso"]
 			valorTotal += item["valor"] * fracao
 			
