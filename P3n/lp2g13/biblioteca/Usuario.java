@@ -10,14 +10,14 @@ public class Usuario extends Pessoa {
 	private int numLEA = 0; // Numero de livros que estao sendo emprestados ao usuario atualmente
 
 	// CONSTRUTOR
-	public Usuario(String nome, String sobreNome, String dataNasc, String CPF, float peso, float altura, String endereco) {
+	public Usuario(String nome, String sobreNome, LocalDate dataNasc, String CPF, float peso, float altura, String endereco) {
 		super(nome, sobreNome, dataNasc, CPF, peso, altura);
 		diminuirNumPessoas();
 		setEndereco(endereco);
 		aumentarNumPessoas();
 	}
 	
-	public Usuario(String nome, String sobreNome, String dataNasc, long numCPF, float peso, float altura, String endereco) {
+	public Usuario(String nome, String sobreNome, LocalDate dataNasc, long numCPF, float peso, float altura, String endereco) {
 		this(nome, sobreNome, dataNasc, Long.toString(numCPF), peso, altura, endereco);
 	}
 
@@ -44,7 +44,7 @@ public class Usuario extends Pessoa {
 		numLEA--;
 	}
 
-	public void addLivroHist(int codLivro, String dataEmprestimo) {
+	public void addLivroHist(int codLivro, LocalDate dataEmprestimo) {
 		hist.add(new Emprest(codLivro, dataEmprestimo));
 		aumentarNumLEA();
 	}

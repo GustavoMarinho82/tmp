@@ -3,28 +3,32 @@ package lp2g13.biblioteca;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import lp2g13.biblioteca.validacao.ValidaData;
+import lp2g13.biblioteca.validacao.*;
 
-public class Emprest {
+public class EmprestPara {
 	// ATRIBUTOS
-	private int codLivro;	
+	private long CPF;
 	private LocalDate dataEmprestimo;
-	private LocalDate dataDevolucao = null;
-	
+	private LocalDate dataDevolucao;
+
 	// CONSTRUTORES
-	public Emprest(int codLivro, LocalDate dataEmprestimo) {
-		setCodLivro(codLivro);
+	public EmprestPara(long CPF, LocalDate dataEmprestimo) {
+		setCPF(CPF);
 		setDataEmprestimo(dataEmprestimo);
 	}
 	
-	public Emprest(int codLivro, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
-		this(codLivro, dataEmprestimo);
+	public EmprestPara(long CPF, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
+		this(CPF, dataEmprestimo);
 		setDataDevolucao(dataDevolucao);
 	}
-
+	
 	// GETTERS
-	public int getCodLivro() {
-		return codLivro;
+	public long getCPF() {
+		return CPF;
+	}
+	
+	public String getCPFFormatado() {
+		return ValidaCPF.formataCPF(CPF);
 	}
 
 	public LocalDate getDataEmprestimo() {
@@ -44,16 +48,12 @@ public class Emprest {
 	}
 
 	// SETTERS
-	public void setCodLivro(int codLivro) {
-		if (codLivro < 1 || codLivro > 999) {
-			throw new IllegalArgumentException("O codigo do livro deve estar entre 1 e 999!");
-		}
-		
-		if (!Livro.conferirCodEmUso(codLivro)) {
-			throw new IllegalArgumentException("Nao existe nenhum livro cadastrado com o codigo informado!");
+	public void setCPF(long CPF) {
+		if (!ValidaCPF.isCPF(Long.toString(CPF))) {
+			throw new IllegalArgumentException("Formato ou valor do CPF eh invalido! Formatos aceitos: 12345678901, 123.456.789-01, 123.456.789/01.");
 		}
 
-		this.codLivro = codLivro;
+		this.CPF = CPF;
 	}
 
 	public void setDataEmprestimo(LocalDate dataEmprestimo) {
@@ -79,8 +79,8 @@ public class Emprest {
 	// OUTROS METODOS
 	@Override
 	public String toString() {
-		return String.format("Codigo do Livro: %d \nData do Emprestimo: %s \nData de Devolucao: %s \n",
-			getCodLivro(),
+		return String.format("CPF: %d \nData do Emprestimo: %s \nData de Devolucao: %s \n",
+			getCPFFormatado(),
 			getDataEmprestimoFormatada(),
 			getDataDevolucaoFormatada()
 		);

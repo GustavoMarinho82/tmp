@@ -19,14 +19,14 @@ public class Pessoa {
 	private float altura;
 		
 	// CONSTRUTORES
-	public Pessoa(String nome, String sobreNome, String dataNasc) {
+	public Pessoa(String nome, String sobreNome, LocalDate dataNasc) {
 		setNome(nome);
 		setSobreNome(sobreNome);
 		setDataNasc(dataNasc);
 		aumentarNumPessoas();
 	}
 	
-	public Pessoa(String nome, String sobreNome, String dataNasc, String CPF, float peso, float altura) {
+	public Pessoa(String nome, String sobreNome, LocalDate dataNasc, String CPF, float peso, float altura) {
 		this(nome, sobreNome, dataNasc);
 		diminuirNumPessoas();
 		setNumCPF(CPF);
@@ -35,7 +35,7 @@ public class Pessoa {
 		aumentarNumPessoas();
 	}
 
-	public Pessoa(String nome, String sobreNome, String dataNasc, long numCPF, float peso, float altura) {
+	public Pessoa(String nome, String sobreNome, LocalDate dataNasc, long numCPF, float peso, float altura) {
 		this(nome, sobreNome, dataNasc, Long.toString(numCPF), peso, altura);
 	}
 	
@@ -106,18 +106,12 @@ public class Pessoa {
 		this.sobreNome = sobreNome.trim();
 	}
 
-	public void setDataNasc(int dia, int mes, int ano) {
-		if (!ValidaData.isDataValida(dia, mes, ano)) {
+	public void setDataNasc(LocalDate dataNasc) {
+		if (!ValidaData.isAno(dataNasc.getYear())) {
 			throw new IllegalArgumentException("Data de nascimento invalida!");
 		}
 
-		this.dataNasc = LocalDate.of(ano, mes, dia);
-	}
-	
-	public void setDataNasc(String dataNasc) {
-		int[] dataInt = ValidaData.toInt(dataNasc); // Pode propagar um IllegalArgumentException
-
-		this.dataNasc = LocalDate.of(dataInt[2], dataInt[1], dataInt[0]);
+		this.dataNasc = dataNasc;
 	}
 
 	public void setNumCPF(long numCPF) {

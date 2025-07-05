@@ -1,8 +1,11 @@
+package lp2g13.biblioteca;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Livro {
 	// ATRIBUTOS
-	private static ArrayList<int> codsEmUso = new ArrayList<>(); // Armzena os codigos que estao vinculados a algum livro
+	private static ArrayList<Integer> codsEmUso = new ArrayList<>(); // Armzena os codigos que estao vinculados a algum livro
 
 	private int codigo;
 	private String titulo;
@@ -10,7 +13,7 @@ public class Livro {
 	private int disponiveis; // Numero de copias disponiveis no acervo
 	private int emprestados;
 	
-	private ArrayList<EmprestPara> = new ArrayList<>();
+	private ArrayList<EmprestPara> hist = new ArrayList<>();
 
 	// CONSTRUTOR
 	public Livro(int codigo, String titulo, String categoria, int disponiveis, int emprestados) {
@@ -45,11 +48,11 @@ public class Livro {
 	// SETTERS
 	public void setCodigo(int codigo) {
 		if (codigo < 1 || codigo > 999) {
-			throw new IllegalArgumentException("O codigo do livro deve estar entre 1 e 999!")
+			throw new IllegalArgumentException("O codigo do livro deve estar entre 1 e 999!");
 		}
 		
-		if (codsEmUso.contains(codigo))
-			throw new IllegalArgumentException("Codigo ja cadastrado! Cadastre o livro com um codigo diferente.")
+		if (codsEmUso.contains(codigo)) {
+			throw new IllegalArgumentException("Codigo ja cadastrado! Cadastre o livro com um codigo diferente.");
 		}
 		
 		codsEmUso.remove(Integer.valueOf(this.codigo));
@@ -76,7 +79,7 @@ public class Livro {
 
 	public void setDisponiveis(int disponiveis) {
 		if (disponiveis < 0) {
-			throw new IllegalArgumentException("O numero de livros disponiveis nao pode ser negativo!")
+			throw new IllegalArgumentException("O numero de livros disponiveis nao pode ser negativo!");
 		}
 	
 		this.disponiveis = disponiveis;
@@ -84,7 +87,7 @@ public class Livro {
 
 	public void setEmprestados(int emprestados) {
 		if (emprestados < 0) {
-			throw new IllegalArgumentException("O numero de livros emprestados nao pode ser negativo!")
+			throw new IllegalArgumentException("O numero de livros emprestados nao pode ser negativo!");
 		}
 	
 		this.emprestados = emprestados;
@@ -96,24 +99,24 @@ public class Livro {
 		return codsEmUso.contains(codigo);
 	}
 
-	public void empresta() {
-		if (emprestado == disponiveis) {
+	public void empresta() throws CopiaNaoDisponivelEx {
+		if (emprestados == disponiveis) {
 			throw new CopiaNaoDisponivelEx();
 		}
 		
-		emprestado++;
+		emprestados++;
 	}
 	
-	public void devolve() {
-		if (emprestado == 0) {
+	public void devolve() throws NenhumaCopiaEmprestadaEx {
+		if (emprestados == 0) {
 			throw new NenhumaCopiaEmprestadaEx();
 		}
 		
-		emprestado--;
+		emprestados--;
 	}
 	
 	public void addUsuarioHist(long CPF, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
-	
+		hist.add(new EmprestPara(CPF, dataEmprestimo, dataDevolucao));		
 	}
 	
 	@Override
