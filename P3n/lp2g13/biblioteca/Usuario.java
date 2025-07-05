@@ -48,4 +48,9 @@ public class Usuario extends Pessoa {
 		hist.add(new Emprest(codLivro, dataEmprestimo));
 		aumentarNumLEA();
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + String.format("Endereco: %s\n", getEndereco());
+	}
 }

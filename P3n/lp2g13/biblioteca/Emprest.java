@@ -7,9 +7,9 @@ import lp2g13.biblioteca.validacao.ValidaData;
 
 public class Emprest {
 	// ATRIBUTOS
-	int codLivro;	
-	LocalDate dataEmprestimo;
-	LocalDate dataDevolucao = null;
+	private int codLivro;	
+	private LocalDate dataEmprestimo;
+	private LocalDate dataDevolucao = null;
 	
 	// CONSTRUTORES
 	public Emprest(int codLivro, String dataEmprestimo) {
@@ -47,6 +47,10 @@ public class Emprest {
 	public void setCodLivro(int codLivro) {
 		if (codLivro < 1 || codLivro > 999) {
 			throw new IllegalArgumentException("O codigo do livro deve estar entre 1 e 999!");
+		}
+		
+		if (!Livro.conferirCodEmUso(codigo)) {
+			throw new IllegalArgumentException("Nao existe nenhum livro cadastrado com o codigo informado!");
 		}
 
 		this.codLivro = codLivro;
