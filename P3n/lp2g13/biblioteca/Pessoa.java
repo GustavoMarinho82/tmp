@@ -64,7 +64,7 @@ public class Pessoa {
 		return numCPF;
 	}
 	
-	public String getCPF() {
+	public String getCPFFormatado() {
 		try {
 			return ValidaCPF.formataCPF(numCPF);
 		
@@ -173,7 +173,7 @@ public class Pessoa {
 			getSobreNome(), 
 			getDataNascFormatada(), 
 			getIdade(), 
-			getCPF(), 
+			getCPFFormatado(), 
 			getPeso(), 
 			getAltura()
 		);

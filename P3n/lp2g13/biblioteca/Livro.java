@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 public class Livro {
 	// ATRIBUTOS
-	private static ArrayList<Integer> codsEmUso = new ArrayList<>(); // Armzena os codigos que estao vinculados a algum livro
-
 	private int codigo;
 	private String titulo;
 	private String categoria;
@@ -45,18 +43,30 @@ public class Livro {
 		return emprestados;
 	}
 
+	public ArrayList<EmprestPara> getHist() {
+		return hist;
+	}
+
+	public String getHistFormatado() {
+		StringBuilder histFormatado = new StringBuilder();
+		
+		for (int i = 0; i < hist.size(); i++) {
+			EmprestPara registro = hist.get(i);
+			histFormatado.append(String.format("Registro {} - Emprestimo: {} | Devolucao: {} \n", 
+				(i+1), 
+				registro.getDataEmprestimoFormatada(), 
+				registro.getDataDevolucaoFormatada()
+			));
+		}
+
+		return histFormatado.toString();
+	}
+
 	// SETTERS
 	public void setCodigo(int codigo) {
 		if (codigo < 1 || codigo > 999) {
 			throw new IllegalArgumentException("O codigo do livro deve estar entre 1 e 999!");
 		}
-		
-		if (codsEmUso.contains(codigo)) {
-			throw new IllegalArgumentException("Codigo ja cadastrado! Cadastre o livro com um codigo diferente.");
-		}
-		
-		codsEmUso.remove(Integer.valueOf(this.codigo));
-		codsEmUso.add(codigo);
 		
 		this.codigo = codigo;
 	}
@@ -93,12 +103,7 @@ public class Livro {
 		this.emprestados = emprestados;
 	}
 
-	// OUTROS METODOS
-	public static boolean conferirCodEmUso(int codigo) {
-		// Retorna se ja existe um livro com o codigo informado
-		return codsEmUso.contains(codigo);
-	}
-
+	// OUTROS METODOS	
 	public void empresta() throws CopiaNaoDisponivelEx {
 		if (emprestados == disponiveis) {
 			throw new CopiaNaoDisponivelEx();
@@ -121,12 +126,13 @@ public class Livro {
 	
 	@Override
 	public String toString() {
-		return String.format("Codigo: %d \nTitulo: %s \nCategoria: %s \nN° de disponiveis: %d \nN° de emprestados: %d \n",
+		return String.format("Codigo: %d \nTitulo: %s \nCategoria: %s \nN° de disponiveis: %d \nN° de emprestados: %d \nHistorico: \n%s",
 			getCodigo(),
 			getTitulo(),
 			getCategoria(),
 			getDisponiveis(),
-			getEmprestados()
+			getEmprestados(),
+			getHistFormatado()
 		);
 	}
 }

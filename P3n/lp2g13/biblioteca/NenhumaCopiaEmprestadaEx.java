@@ -1,8 +1,12 @@
 package lp2g13.biblioteca;
 
 public class NenhumaCopiaEmprestadaEx extends Exception {
-	// CONSTRUTOR
+	// CONSTRUTORES
 	public NenhumaCopiaEmprestadaEx() {
 		super();
+	}
+
+	public NenhumaCopiaEmprestadaEx(String mensagem) {
+		super(mensagem);
 	}
 }

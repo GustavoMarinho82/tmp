@@ -1,8 +1,12 @@
 package lp2g13.biblioteca;
 
 public class CopiaNaoDisponivelEx extends Exception {
-	// CONSTRUTOR
+	// CONSTRUTORES
 	public CopiaNaoDisponivelEx() {
 		super();
+	}
+	
+	public CopiaNaoDisponivelEx(String mensagem) {
+		super(mensagem);
 	}
 }

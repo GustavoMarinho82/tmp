@@ -6,8 +6,9 @@ import java.util.ArrayList;
 public class Usuario extends Pessoa {
 	// ATRIBUTOS
 	private String endereco;
+
 	private ArrayList<Emprest> hist;
-	private int numLEA = 0; // Numero de livros que estao sendo emprestados ao usuario atualmente
+	private int numLivrosEmprestados = 0; // Numero de livros que estao sendo emprestados ao usuario atualmente
 
 	// CONSTRUTOR
 	public Usuario(String nome, String sobreNome, LocalDate dataNasc, String CPF, float peso, float altura, String endereco) {
@@ -26,6 +27,29 @@ public class Usuario extends Pessoa {
 		return endereco;
 	}
 
+	public ArrayList<Emprest> getHist() {
+		return hist;
+	}
+	
+	public String getHistFormatado() {
+		StringBuilder histFormatado = new StringBuilder();
+		
+		for (int i = 0; i < hist.size(); i++) {
+			Emprest registro = hist.get(i);
+			histFormatado.append(String.format("Registro {} - Emprestimo: {} | Devolucao: {} \n", 
+				(i+1), 
+				registro.getDataEmprestimoFormatada(), 
+				registro.getDataDevolucaoFormatada()
+			));
+		}
+
+		return histFormatado.toString();
+	}
+
+	public int getNumLivrosEmprestados() {
+		return numLivrosEmprestados;
+	}
+
 	// SETTERS
 	public void setEndereco(String endereco) {
 		if (endereco == null || endereco.trim().isEmpty()) {
@@ -36,21 +60,24 @@ public class Usuario extends Pessoa {
 	}
 
 	// OUTROS METODOS
-	public void aumentarNumLEA() {
-		numLEA++;
+	public void aumentarNumLivrosEmprestados() {
+		numLivrosEmprestados++;
 	}
 
-	public void diminuirNumLEA() {
-		numLEA--;
+	public void diminuirNumLivrosEmprestados() {
+		numLivrosEmprestados--;
 	}
 
 	public void addLivroHist(int codLivro, LocalDate dataEmprestimo) {
 		hist.add(new Emprest(codLivro, dataEmprestimo));
-		aumentarNumLEA();
+		aumentarNumLivrosEmprestados();
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + String.format("Endereco: %s\n", getEndereco());
+		return super.toString() + String.format("Endereco: %s \nHistorico: \n%s", 
+			getEndereco(), 
+			getHistFormatado()
+		);
 	}
 }

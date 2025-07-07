@@ -49,10 +49,6 @@ public class Emprest {
 			throw new IllegalArgumentException("O codigo do livro deve estar entre 1 e 999!");
 		}
 		
-		if (!Livro.conferirCodEmUso(codLivro)) {
-			throw new IllegalArgumentException("Nao existe nenhum livro cadastrado com o codigo informado!");
-		}
-
 		this.codLivro = codLivro;
 	}
 
