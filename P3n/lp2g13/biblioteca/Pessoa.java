@@ -1,13 +1,13 @@
 package lp2g13.biblioteca;
 
+import java.io.*;
+
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import lp2g13.biblioteca.validacao.*;
-
-public class Pessoa {	
+public class Pessoa implements Serializable {	
 	// ATRIBUTOS
 	private static int numPessoas = 0;
 
@@ -177,5 +177,17 @@ public class Pessoa {
 			getPeso(), 
 			getAltura()
 		);
+	}
+	
+	// IMPLEMENTACAO DA SERIALIZACAO
+	// Isso foi necessario porque a dataNasc nao estava sendo salva e lida
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeObject(getDataNasc());
+	}
+
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		ois.defaultReadObject();
+		setDataNasc((LocalDate) ois.readObject());
 	}
 }

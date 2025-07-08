@@ -1,4 +1,4 @@
-package lp2g13.biblioteca.validacao;
+package lp2g13.biblioteca;
 
 import java.time.LocalDate;
 import java.time.ZoneId;

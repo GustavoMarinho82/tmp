@@ -1,9 +1,10 @@
 package lp2g13.biblioteca;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Livro {
+public class Livro implements Serializable {
 	// ATRIBUTOS
 	private int codigo;
 	private String titulo;
@@ -126,13 +127,16 @@ public class Livro {
 	
 	@Override
 	public String toString() {
-		return String.format("Codigo: %d \nTitulo: %s \nCategoria: %s \nN° de disponiveis: %d \nN° de emprestados: %d \nHistorico: \n%s",
+		return String.format("Codigo: %d \nTitulo: %s \nCategoria: %s \nN° de disponiveis: %d \nN° de emprestados: %d \n",
 			getCodigo(),
 			getTitulo(),
 			getCategoria(),
 			getDisponiveis(),
-			getEmprestados(),
-			getHistFormatado()
+			getEmprestados()
 		);
+	}
+
+	public String toStringCompleto() {
+		return this.toString() + "Historico: \n" + getHistFormatado();
 	}
 }

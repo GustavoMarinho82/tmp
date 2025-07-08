@@ -146,9 +146,9 @@ public class Biblioteca {
 		Collections.sort(CPFs);
 
 		for (long CPF: CPFs) {
-			usuariosStr.append(cadUsuarios.get(CPF));
+			usuariosStr.append("\n" + cadUsuarios.get(CPF));
 		}
-
+		
 		return usuariosStr.toString();
 	}
 
@@ -158,7 +158,7 @@ public class Biblioteca {
 		Collections.sort(codigos);
 
 		for (int codigo: codigos) {
-			livrosStr.append(cadLivros.get(codigo));
+			livrosStr.append("\n" + cadLivros.get(codigo));
 		}
 
 		return livrosStr.toString();

@@ -1,4 +1,4 @@
-package lp2g13.biblioteca.validacao;
+package lp2g13.biblioteca;
 
 public class ValidaCPF {
 	// METODOS

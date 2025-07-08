@@ -1,11 +1,10 @@
 package lp2g13.biblioteca;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import lp2g13.biblioteca.validacao.*;
-
-public class EmprestPara {
+public class EmprestPara implements Serializable {
 	// ATRIBUTOS
 	private long CPF;
 	private LocalDate dataEmprestimo;

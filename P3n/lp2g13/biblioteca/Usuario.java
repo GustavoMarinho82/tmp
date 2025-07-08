@@ -1,13 +1,14 @@
 package lp2g13.biblioteca;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Usuario extends Pessoa {
+public class Usuario extends Pessoa implements Serializable {
 	// ATRIBUTOS
 	private String endereco;
 
-	private ArrayList<Emprest> hist;
+	private ArrayList<Emprest> hist = new ArrayList<>();
 	private int numLivrosEmprestados = 0; // Numero de livros que estao sendo emprestados ao usuario atualmente
 
 	// CONSTRUTOR
@@ -75,9 +76,10 @@ public class Usuario extends Pessoa {
 
 	@Override
 	public String toString() {
-		return super.toString() + String.format("Endereco: %s \nHistorico: \n%s", 
-			getEndereco(), 
-			getHistFormatado()
-		);
+		return super.toString() + "Endereco: " + getEndereco() + "\n";
+	}
+
+	public String toStringCompleto() {
+		return this.toString() + "Historico: \n" + getHistFormatado();
 	}
 }
