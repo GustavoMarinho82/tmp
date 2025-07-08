@@ -129,223 +129,37 @@ public class P3nX {
 			));
 			
 			System.out.println("1 - Salvar os cadastros");
-			System.out.println("2 - Salvar os cadastros em outros arquivos");
-			System.out.println("3 - Carregar os cadastros");
-			System.out.println("4 - Carregar os cadastros de outros arquivos");
-			System.out.println("5 - Selecionar arquivos");
-			System.out.println("6 - Voltar");
-			
-			int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
-			
-			switch (opcao) {
-				case 1:
-					salvarDados(nomeArqUsuarios, nomeArqLivros);
-					break;
-					
-				case 2:
-					salvarDados(
-						lerLinha("Digite o nome do arquivo para salvar os cadastros de usuarios: "),
-						lerLinha("Agora, digite o nome do arquivo para salvar os cadastros de livros: ")
-					);
-					break;
-					
-				case 3:
-					carregarDadosArqs(nomeArqUsuarios, nomeArqLivros);
-					break;
-				
-				case 4:
-					carregarDadosArqs(
-						lerLinha("Digite o nome do arquivo para salvar os cadastros de usuarios: "), 
-						lerLinha("Agora, digite o nome do arquivo para salvar os cadastros de livros: ")
-					);
-					break;
-					
-				case 5:
-					nomeArqUsuarios = lerLinha("Digite o nome do arquivo de usuarios: ");
-					nomeArqLivros = lerLinha("Agora, digite o nome do arquivo de livros: ");
-					
-					break;
-					
-				case 6:
-					break loop;
-					
-				default:
-					System.out.println("Insira um numero de 1 a 6!");
-			}
-		}
-	}
-	private boolean arqDefinido(String arq) {
-		return !(arq == null || arq.trim().isEmpty());
-	}
-	
-	private boolean arqsDefinidos(String arq1, String arq2) {
-		return (arqDefinido(arq1) && arqDefinido(arq2));
-	}
-	
-	private void salvarDados(String nomeArqU, String nomeArqL) {
-		try {
-			if (arqsDefinidos(nomeArqU, nomeArqL)) {
-				biblioteca.salvaArqUsu(nomeArqU);
-				biblioteca.salvaArqLiv(nomeArqL);
-				
-				System.out.println("Dados salvos com sucesso!");
-			
-			} else {
-				System.err.println("ERRO: Algum dos arquivos nao esta definido.");
-			}
-			
-			digiteParaContinuar()
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("ERRO: Um dos arquivos nao pode ser escrito.");
-			
-		} catch (IOException e) {
-			System.err.println("ERRO: Um problema de E/S ocorreu. Mais detalhes: \n" + e);
-		}
-	}
-	
-	private void salvarDadosUsu(String nomeArq) {
-		try {
-			if (arqDefinido(nomeArq)) {
-				biblioteca.salvaArqUsu(nomeArq);
-				
-				System.out.println("Dados salvos com sucesso!");
-			
-			} else {
-				System.err.println("ERRO: O arquivo nao esta definido.");
-			}
-			
-			digiteParaContinuar()
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("ERRO: O arquivos nao pode ser escrito.");
-			
-		} catch (IOException e) {
-			System.err.println("ERRO: Um problema de E/S ocorreu. Mais detalhes: \n" + e);
-		}
-	}
-	
-	private void salvarDadosLiv(String nomeArq) {
-		try {
-			if (arqDefinido(nomeArq)) {
-				biblioteca.salvaArqLiv(nomeArq);
-				
-				System.out.println("Dados salvos com sucesso!");
-			
-			} else {
-				System.err.println("ERRO: O arquivo nao esta definido.");
-			}
-			
-			digiteParaContinuar()
-			
-		} catch (FileNotFoundException e) {
-			System.err.println("ERRO: O arquivo nao pode ser escrito.");
-			
-		} catch (IOException e) {
-			System.err.println("ERRO: Um problema de E/S ocorreu. Mais detalhes: \n" + e);
-		}
-	}
-	
-	private void carregarDadosArqs(String nomeArqU, String nomeArqL) {
-		try {
-			if (arqsDefinidos(nomeArqU, nomeArqL)) {
-				biblioteca.leArqUsu(nomeArqU);
-				biblioteca.leArqLiv(nomeArqL);
-			
-				System.out.println("Dados carregados com sucesso!");
-				
-			} else {
-				System.err.println("ERRO: Algum dos arquivos nao esta definido.");
-			}
-			
-			digiteParaContinuar()
-		
-		} catch (FileNotFoundException e) {
-				System.err.println("ERRO: Um dos arquivos nao foi encontrado ou nao pode ser lido.");
-			
-		} catch (IOException e) {
-				System.err.println("ERRO: Um problema de E/S ocorreu. Mais detalhes: \n" + e);
-
-		} catch (ClassNotFoundException | ArquivoSerialInvalidoEx e) {
-				System.err.println("ERRO: Um dos arquivos informados nao contem o cadastro de usuarios/livros.");
-		}
-	}
-	
-	private void cadastro() {
-		loop: while (true) {
-			System.out.println("\nO que voce deseja fazer?");
-			System.out.println("1 - Cadastrar um usuario");
-			System.out.println("2 - Cadastrar um livro");
-			System.out.println("3 - Salvar cadastro");
+			System.out.println("2 - Carregar os cadastros");
+			System.out.println("3 - Selecionar arquivos");
 			System.out.println("4 - Voltar");
 			
 			int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
 			
 			switch (opcao) {
 				case 1:
-					cadastrarUsuario();
+					salvarCadastro();
 					break;
 					
 				case 2:
-					cadastrarLivro();
+					carregarCadastro();
 					break;
 					
 				case 3:
-					salvarCadastro();
+					nomeArqUsuarios = lerLinha("Digite o nome do arquivo de usuarios: ");
+					nomeArqLivros = lerLinha("Agora, digite o nome do arquivo de livros: ");
 					break;
 					
 				case 4:
 					break loop;
-				
+					
 				default:
 					System.out.println("Insira um numero de 1 a 4!");
 			}
 		}
 	}
-
-	private void cadastrarUsuario() {
-		try {
-			String nome = lerLinha("Digite o nome do usuario: ");
-			String sobreNome = lerLinha("Digite o sobrenome do usuario: ");
-			String dataNascStr = lerLinha("Digite a data de nascimento do usuario: ");
-			String CPF = lerLinha("Digite o CPF do usuario: ");
-			Float peso = lerFloat("Digite o peso do usuario: ");
-			Float altura = lerFloat("Digite a altura do usuario: ");
-			String endereco = lerLinha("Digite o endereco do usuario: ");
-			
-			LocalDate dataNasc = LocalDate.parse(dataNascStr, FORMATADOR_DATA);
-			
-			biblioteca.cadastraUsuario(new Usuario(nome, sobreNome, dataNasc, CPF, peso, altura, endereco));
-			
-			System.out.println("Usuario cadastrado com sucesso!");
-			
-		} catch (IllegalArgumentException e) {
-			System.err.println("ERRO: " + e.getMessage());
-			
-		} catch (DateTimeParseException e) {
-			System.err.println("ERRO: Formato ou valor de data de nascimento invalido! Formatos aceitos: 01-01-2000 e 01/01/2000.");
-		}
-		
-		digiteParaContinuar()
-	}
 	
-	private void cadastrarLivro() {
-		try {
-			String titulo = lerLinha("Digite o titulo do livro: ");
-			int codigo = lerInteiro("Digite o codigo do livro: ");
-			String categoria = lerLinha("Digite a categoria do livro: ");
-			int disponiveis = lerInteiro("Quantas copias desse livro estao no acervo: ");
-			int emprestados = lerInteiro("Quantas copias desse livro estao sendo emprestadas no momento: ");
-			
-			biblioteca.cadastraLivro(new Livro(codigo, titulo, categoria, disponiveis, emprestados));
-			
-			System.out.println("Livro cadastrado com sucesso!");
-			
-		} catch (IllegalArgumentException e) {
-			System.err.println("ERRO: " + e.getMessage());
-		}
-		
-		digiteParaContinuar()
+	private boolean arqDefinido(String arq) {
+		return !(arq == null || arq.trim().isEmpty());
 	}
 	
 	private void salvarCadastro() {
@@ -376,7 +190,7 @@ public class P3nX {
 					break loop;
 				
 				default:
-					System.out.println("Insira um numero de 1 a 6!");
+					System.out.println("Insira um numero de 1 a 4!");
 			}
 		}
 	}
@@ -444,6 +258,267 @@ public class P3nX {
 			}
 		}
 	}
+	
+	private void salvarDadosUsu(String nomeArq) {
+		try {
+			if (arqDefinido(nomeArq)) {
+				biblioteca.salvaArqUsu(nomeArq);
+				
+				System.out.println("Dados salvos com sucesso!");
+			
+			} else {
+				System.err.println("ERRO: O arquivo nao esta definido.");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("ERRO: O arquivos nao pode ser escrito.");
+			
+		} catch (IOException e) {
+			System.err.println("ERRO: Um problema de E/S ocorreu. \nMais detalhes: " + e);
+		}
+		
+		digiteParaContinuar();
+	}
+	
+	private void salvarDadosLiv(String nomeArq) {
+		try {
+			if (arqDefinido(nomeArq)) {
+				biblioteca.salvaArqLiv(nomeArq);
+				
+				System.out.println("Dados salvos com sucesso!");
+			
+			} else {
+				System.err.println("ERRO: O arquivo nao esta definido.");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("ERRO: O arquivo nao pode ser escrito.");
+			
+		} catch (IOException e) {
+			System.err.println("ERRO: Um problema de E/S ocorreu. \nMais detalhes: " + e);
+		}
+		
+		digiteParaContinuar();
+	}
+	
+	private void carregarCadastro() {
+		loop: while(true) {
+			System.out.println("\nQual cadastro carregar?");			
+			System.out.println("1 - Usuarios");
+			System.out.println("2 - Livros");
+			System.out.println("3 - Ambos");
+			System.out.println("4 - Voltar");
+			
+			int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
+			
+			switch (opcao) {
+				case 1:
+					carregarUsuarios();
+					break loop;
+					
+				case 2:
+					carregarLivros();
+					break loop;
+					
+				case 3:
+					carregarUsuarios();
+					carregarLivros();
+					break loop;
+					
+				case 4:
+					break loop;
+				
+				default:
+					System.out.println("Insira um numero de 1 a 6!");
+			}
+		}
+	}
+
+	private void carregarUsuarios() {
+		loop: while (true) {
+			if (arqDefinido(nomeArqUsuarios)) {
+				System.out.println("\nDe onde carregar os dados de usuarios?");
+				System.out.println(String.format("1 - Carregar de %s", nomeArqUsuarios));
+				System.out.println("2 - Escolher outro arquivo");
+				System.out.println("3 - Cancelar");
+			
+				int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
+				
+				switch (opcao) {
+					case 1:
+						carregarDadosUsu(nomeArqUsuarios);
+						break loop;
+						
+					case 2:
+						carregarDadosUsu(lerLinha("Digite o nome do arquivo para carregar os cadastros de usuarios: "));
+						break loop;
+						
+					case 3:
+						break loop;
+					
+					default:
+						System.out.println("Insira um numero de 1 a 3!");
+				}
+			} else {
+				carregarDadosUsu(lerLinha("Digite o nome do arquivo para carregar os cadastros de usuarios: "));
+				break loop;
+			}
+		}
+	}
+	
+	private void carregarLivros() {
+		loop: while (true) {
+			if (arqDefinido(nomeArqLivros)) {
+				System.out.println("\nOnde carregar os dados de livros?");
+				System.out.println(String.format("1 - Carregar de %s", nomeArqLivros));
+				System.out.println("2 - Escolher outro arquivo");
+				System.out.println("3 - Cancelar");
+			
+				int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
+				
+				switch (opcao) {
+					case 1:
+						carregarDadosLiv(nomeArqLivros);
+						break loop;
+						
+					case 2:
+						carregarDadosLiv(lerLinha("Digite o nome do arquivo para carregar os cadastros de livros: "));
+						break loop;
+						
+					case 3:
+						break loop;
+					
+					default:
+						System.out.println("Insira um numero de 1 a 3!");
+				}
+			} else {
+				carregarDadosLiv(lerLinha("Digite o nome do arquivo para carregar os cadastros de livros: "));
+				break loop;
+			}
+		}
+	}
+
+	private void carregarDadosUsu(String nomeArq) {
+		try {
+			if (arqDefinido(nomeArq)) {
+				biblioteca.leArqUsu(nomeArq);
+				
+				System.out.println("Dados carregados com sucesso!");
+			
+			} else {
+				System.err.println("ERRO: O arquivo nao esta definido.");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("ERRO: O arquivo nao foi encontrado ou nao pode ser lido.");
+			
+		} catch (IOException e) {
+			System.err.println("ERRO: Um problema de E/S ocorreu. \nMais detalhes: " + e);
+		
+		} catch (ClassNotFoundException | ArquivoSerialInvalidoEx e) {
+				System.err.println("ERRO: O arquivo informado nao contem o cadastro de usuarios.");
+		}
+		
+		digiteParaContinuar();
+	}
+	
+	private void carregarDadosLiv(String nomeArq) {
+		try {
+			if (arqDefinido(nomeArq)) {
+				biblioteca.leArqLiv(nomeArq);
+				
+				System.out.println("Dados carregados com sucesso!");
+			
+			} else {
+				System.err.println("ERRO: O arquivo nao esta definido.");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("ERRO: O arquivo nao foi encontrado ou nao pode ser lido.");
+			
+		} catch (IOException e) {
+			System.err.println("ERRO: Um problema de E/S ocorreu. \nMais detalhes: " + e);
+		
+		} catch (ClassNotFoundException | ArquivoSerialInvalidoEx e) {
+				System.err.println("ERRO: O arquivo informado nao contem o cadastro de livros.");
+		}
+		
+		digiteParaContinuar();
+	}
+	
+	private void cadastro() {
+		loop: while (true) {
+			System.out.println("\nO que voce deseja fazer?");
+			System.out.println("1 - Cadastrar um usuario");
+			System.out.println("2 - Cadastrar um livro");
+			System.out.println("3 - Salvar cadastro");
+			System.out.println("4 - Voltar");
+			
+			int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
+			
+			switch (opcao) {
+				case 1:
+					cadastrarUsuario();
+					break;
+					
+				case 2:
+					cadastrarLivro();
+					break;
+					
+				case 3:
+					salvarCadastro();
+					break;
+					
+				case 4:
+					break loop;
+				
+				default:
+					System.out.println("Insira um numero de 1 a 4!");
+			}
+		}
+	}
+
+	private void cadastrarUsuario() {
+		try {
+			String nome = lerLinha("Digite o nome do usuario: ");
+			String sobreNome = lerLinha("Digite o sobrenome do usuario: ");
+			String dataNascStr = lerLinha("Digite a data de nascimento do usuario: ");
+			String CPF = lerLinha("Digite o CPF do usuario: ");
+			Float peso = lerFloat("Digite o peso do usuario: ");
+			Float altura = lerFloat("Digite a altura do usuario: ");
+			String endereco = lerLinha("Digite o endereco do usuario: ");
+			
+			LocalDate dataNasc = LocalDate.parse(dataNascStr, FORMATADOR_DATA);
+			
+			biblioteca.cadastraUsuario(new Usuario(nome, sobreNome, dataNasc, CPF, peso, altura, endereco));
+			
+			System.out.println("Usuario cadastrado com sucesso!");
+			
+		} catch (IllegalArgumentException e) {
+			System.err.println("ERRO: " + e.getMessage());
+			
+		} catch (DateTimeParseException e) {
+			System.err.println("ERRO: Formato ou valor de data de nascimento invalido! Formatos aceitos: 01-01-2000 e 01/01/2000.");
+		}
+		
+		digiteParaContinuar();
+	}
+	
+	private void cadastrarLivro() {
+		try {
+			String titulo = lerLinha("Digite o titulo do livro: ");
+			int codigo = lerInteiro("Digite o codigo do livro: ");
+			String categoria = lerLinha("Digite a categoria do livro: ");
+			int disponiveis = lerInteiro("Quantas copias desse livro estao no acervo: ");
+			int emprestados = lerInteiro("Quantas copias desse livro estao sendo emprestadas no momento: ");
+			
+			biblioteca.cadastraLivro(new Livro(codigo, titulo, categoria, disponiveis, emprestados));
+			
+			System.out.println("Livro cadastrado com sucesso!");
+			
+		} catch (IllegalArgumentException e) {
+			System.err.println("ERRO: " + e.getMessage());
+		}
+		
+		digiteParaContinuar();
+	}
+	
 //	private void emprestimo() {
 	
 //	}
@@ -483,7 +558,7 @@ public class P3nX {
 					System.out.println("Insira um numero de 1 a 5!");
 			}
 			
-			digiteParaContinuar()
+			digiteParaContinuar();
 		}
 	}
 
