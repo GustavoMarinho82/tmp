@@ -5,7 +5,6 @@ import java.time.format.DateTimeParseException;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 
-import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -195,7 +194,7 @@ public class P3nX {
 				System.err.println("ERRO: Algum dos arquivos nao esta definido.");
 			}
 			
-			lerLinha("Digite qualquer coisa para continuar... ");
+			digiteParaContinuar()
 			
 		} catch (FileNotFoundException e) {
 			System.err.println("ERRO: Um dos arquivos nao pode ser escrito.");
@@ -216,7 +215,7 @@ public class P3nX {
 				System.err.println("ERRO: O arquivo nao esta definido.");
 			}
 			
-			lerLinha("Digite qualquer coisa para continuar... ");
+			digiteParaContinuar()
 			
 		} catch (FileNotFoundException e) {
 			System.err.println("ERRO: O arquivos nao pode ser escrito.");
@@ -237,7 +236,7 @@ public class P3nX {
 				System.err.println("ERRO: O arquivo nao esta definido.");
 			}
 			
-			lerLinha("Digite qualquer coisa para continuar... ");
+			digiteParaContinuar()
 			
 		} catch (FileNotFoundException e) {
 			System.err.println("ERRO: O arquivo nao pode ser escrito.");
@@ -259,7 +258,7 @@ public class P3nX {
 				System.err.println("ERRO: Algum dos arquivos nao esta definido.");
 			}
 			
-			lerLinha("Digite qualquer coisa para continuar... ");
+			digiteParaContinuar()
 		
 		} catch (FileNotFoundException e) {
 				System.err.println("ERRO: Um dos arquivos nao foi encontrado ou nao pode ser lido.");
@@ -327,7 +326,7 @@ public class P3nX {
 			System.err.println("ERRO: Formato ou valor de data de nascimento invalido! Formatos aceitos: 01-01-2000 e 01/01/2000.");
 		}
 		
-		lerLinha("Digite qualquer coisa para continuar... ");
+		digiteParaContinuar()
 	}
 	
 	private void cadastrarLivro() {
@@ -346,7 +345,7 @@ public class P3nX {
 			System.err.println("ERRO: " + e.getMessage());
 		}
 		
-		lerLinha("Digite qualquer coisa para continuar... ");
+		digiteParaContinuar()
 	}
 	
 	private void salvarCadastro() {
@@ -484,7 +483,7 @@ public class P3nX {
 					System.out.println("Insira um numero de 1 a 5!");
 			}
 			
-			lerLinha("Digite qualquer coisa para continuar... ");
+			digiteParaContinuar()
 		}
 	}
 
@@ -517,9 +516,9 @@ public class P3nX {
 	}
 	
 	// FUNCOES DE LEITURA DO TECLADO
-	private String lerLinha(String prompt) {
+	private String lerLinha(String mensagem) {
 		try {
-			System.out.print(prompt);
+			System.out.print(mensagem);
 			return teclado.nextLine();
 			
 		} catch (NoSuchElementException e) {
@@ -529,45 +528,29 @@ public class P3nX {
 		}
 	}
 	
-	private int lerInteiro(String prompt) {
+	private int lerInteiro(String mensagem) {
 		while(true) {
 			try {
-				System.out.print(prompt);
+				return Integer.valueOf(lerLinha(mensagem));
 				
-				int i = teclado.nextInt();
-				teclado.nextLine();
-				
-				return i;
-				
-			} catch (InputMismatchException e) {
-				System.err.println("\nERRO: Nao foi inserido um inteiro.");
-				teclado.nextLine();
-				
-			} catch (NoSuchElementException e) {
-				System.err.println("\nERRO: Comando de EOF enviado! Encerrando o programa.");
-				System.exit(1);
+			} catch (NumberFormatException e) {
+				System.err.println("\nERRO: Nao foi inserido um inteiro.");	
 			}
 		}
 	}
 	
-	private float lerFloat(String prompt) {
+	private float lerFloat(String mensagem) {
 		while(true) {
 			try {
-				System.out.print(prompt);
-				
-				float f = teclado.nextFloat();
-				teclado.nextLine();
-				
-				return f;
+				return Float.valueOf(lerLinha(mensagem).replace(",", "."));
 					
-			} catch (InputMismatchException e) {
+			} catch (NumberFormatException e) {
 				System.err.println("\nERRO: Nao foi inserido um ponto flutuante.");
-				teclado.nextLine();
-			
-			} catch (NoSuchElementException e) {
-				System.err.println("\nERRO: Comando de EOF enviado! Encerrando o programa.");
-				System.exit(1);
 			}
 		}
+	}
+	
+	private void digiteParaContinuar() {
+		lerLinha("Digite qualquer coisa para continuar... ");
 	}
 }
