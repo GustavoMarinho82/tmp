@@ -2,7 +2,6 @@ package lp2g13.biblioteca;
 
 import java.io.*;
 import java.time.LocalDate;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -118,6 +117,7 @@ public class Biblioteca {
 		livro.empresta();
 		livro.addUsuarioHist(usuario.getNumCPF(), agora, null);
 		usuario.addLivroHist(livro.getCodigo(), agora, null);
+		usuario.aumentarNumLivrosEmprestados();
 	}
 
 	public void devolveLivro(Usuario usuario, Livro livro) throws NenhumaCopiaEmprestadaEx {

@@ -13,7 +13,6 @@ public class Livro implements Serializable {
 	private String categoria;
 	private int disponiveis;
 	private int emprestados;
-	
 	private ArrayList<EmprestPara> hist = new ArrayList<>();
 
 	// CONSTRUTOR

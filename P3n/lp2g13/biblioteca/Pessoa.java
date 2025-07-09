@@ -1,16 +1,12 @@
 package lp2g13.biblioteca;
 
 import java.io.*;
-
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public class Pessoa implements Serializable {	
 	// ATRIBUTOS
 	private static final long serialVersionUID = 10L;
-	private static int numPessoas = 0;
 
 	private String nome;
 	private String sobreNome;
@@ -24,26 +20,19 @@ public class Pessoa implements Serializable {
 		setNome(nome);
 		setSobreNome(sobreNome);
 		setDataNasc(dataNasc);
-		aumentarNumPessoas();
 	}
 	
 	public Pessoa(String nome, String sobreNome, LocalDate dataNasc, String CPF, float peso, float altura) {
 		this(nome, sobreNome, dataNasc);
-		diminuirNumPessoas();
 		setNumCPF(CPF);
 		setPeso(peso);
 		setAltura(altura);
-		aumentarNumPessoas();
 	}
 
 	public Pessoa(String nome, String sobreNome, LocalDate dataNasc, long numCPF, float peso, float altura) {
 		this(nome, sobreNome, dataNasc, Long.toString(numCPF), peso, altura);
 	}
 	
-	public Pessoa() {
-		aumentarNumPessoas();
-	}
-		
 	// GETTERS
 	public String getNome() {
 		return nome;
@@ -58,7 +47,7 @@ public class Pessoa implements Serializable {
 	}
 	
 	public String getDataNascFormatada() {
-		return dataNasc.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		return ValidaData.formata(dataNasc);
 	}
 
 	public long getNumCPF() {
@@ -156,18 +145,6 @@ public class Pessoa implements Serializable {
 	}
 
 	// OUTROS METODOS
-	public static int numPessoas() {
-		return numPessoas;
-	}
-	
-	public static void diminuirNumPessoas() {
-		numPessoas--;
-	}
-	
-	public static void aumentarNumPessoas() {
-		numPessoas++;
-	}
-	
 	public int getIdade() {
 		LocalDate agora = LocalDate.now(ZoneId.systemDefault());
 		int idade = agora.getYear() - dataNasc.getYear();

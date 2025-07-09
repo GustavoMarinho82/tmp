@@ -15,9 +15,7 @@ public class Usuario extends Pessoa implements Serializable {
 	// CONSTRUTOR
 	public Usuario(String nome, String sobreNome, LocalDate dataNasc, String CPF, float peso, float altura, String endereco) {
 		super(nome, sobreNome, dataNasc, CPF, peso, altura);
-		diminuirNumPessoas();
 		setEndereco(endereco);
-		aumentarNumPessoas();
 	}
 	
 	public Usuario(String nome, String sobreNome, LocalDate dataNasc, long numCPF, float peso, float altura, String endereco) {

@@ -2,7 +2,6 @@ package lp2g13.biblioteca;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class EmprestPara implements Serializable {
 	// ATRIBUTOS
@@ -37,7 +36,7 @@ public class EmprestPara implements Serializable {
 	}
 
 	public String getDataEmprestimoFormatada() {
-		return dataEmprestimo.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		return ValidaData.formata(dataEmprestimo);
 	}
 	
 	public LocalDate getDataDevolucao() {
@@ -45,7 +44,7 @@ public class EmprestPara implements Serializable {
 	}
 
 	public String getDataDevolucaoFormatada() {
-		return (dataDevolucao != null) ? dataDevolucao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "Pendente";
+		return (dataDevolucao != null) ? ValidaData.formata(dataDevolucao) : "Pendente";
 	}
 
 	// SETTERS
