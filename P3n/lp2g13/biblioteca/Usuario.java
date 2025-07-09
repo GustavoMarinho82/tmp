@@ -81,6 +81,30 @@ public class Usuario extends Pessoa implements Serializable {
 		}
 	}
 
+	public boolean possuiLivroAtraso(int periodoDevolucao) {
+		for (Emprest registro: hist) {
+			LocalDate dataLimite = registro.getDataEmprestimo().plusDays(periodoDevolucao);
+			
+			if (registro.getDataDevolucao() == null && dataLimite.isBefore(LocalDate.now())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean possuiLivroAtraso(int codLivro, int periodoDevolucao) {
+		for (Emprest registro: hist) {
+			LocalDate dataLimite = registro.getDataEmprestimo().plusDays(periodoDevolucao);
+			
+			if (registro.getCodLivro() == codLivro && registro.getDataDevolucao() == null && dataLimite.isBefore(LocalDate.now())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString() + String.format("Endereco: %s\n", getEndereco());

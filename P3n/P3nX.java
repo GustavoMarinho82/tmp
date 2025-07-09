@@ -1,8 +1,8 @@
 import java.io.*;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
+import java.util.Properties;
 import java.util.Scanner;
 
 import lp2g13.biblioteca.*;
@@ -13,7 +13,11 @@ public class P3nX {
 	private Biblioteca biblioteca;
 	private String nomeArqUsuarios;
 	private String nomeArqLivros;
-		
+	
+	// ATRIBUTOS DA PERSONALIZACAO
+	private int maxLivrosEmprestados; // Maximo de livros que um usuario pode ter simultaneamente
+	private int periodoDevolucao; // Periodo em dias em que um usuario pode ficar em posse de um livro sem devolve-lo sem sofrer punicoes
+	
 	// METODO PRINCIPAL
 	public static void main(String[] args) {
 		P3nX programa = new P3nX();
@@ -24,15 +28,59 @@ public class P3nX {
 	private void executa() {
 		teclado = new Scanner(System.in);
 		
+		politicaPersonalizada();
 		biblioteca = iniciarBiblioteca();
 		rotinaEscolhaModulos();
 		
 		teclado.close();
 	}
 	
+	private void politicaPersonalizada() {
+		loop: while (true) {
+			String resposta = lerLinha("Voce deseja iniciar a biblioteca com uma politica personalizada (do arquivo config.properties)? (s/n): ");
+			
+			switch (resposta.toLowerCase()) {
+				case "n":
+					break loop;
+					
+				case "s":
+					carregarPolitica();
+					break loop;
+						
+				default:
+					System.out.println("Resposta invalida! Digite 's' ou 'n'. \n");
+			}
+		}
+	}
+	
+	private void carregarPolitica() {
+		Properties politica = new Properties();
+		
+		try (FileInputStream fis = new FileInputStream("config.properties")) {
+			politica.load(fis);
+			
+			int maxLivTemp = Integer.valueOf(politica.getProperty("max.livros.emprestados"));
+			int periodoTemp = Integer.valueOf(politica.getProperty("periodo.devolucao"));
+			
+			maxLivrosEmprestados = maxLivTemp;
+			periodoDevolucao = periodoTemp;
+			
+			System.out.println("Politica personalizada carregada com sucesso!");
+				
+		} catch (FileNotFoundException e) {
+			System.err.println("ERRO: O arquivo config.properties nao foi encontrado ou nao pode ser lido. \nSeguindo sem a politica personalizada.");
+		
+		} catch (IOException e) {
+			System.err.println("ERRO: Nao foi possivel concluir a leitura corretamente. \nSeguindo sem a politica personalizada.");
+		
+		} catch (NumberFormatException e) {
+			System.err.println("ERRO: Nao foi possivel carregar os valores de config.properties. \nSeguindo sem a politica personalizada.");
+		}
+	}
+	
 	private Biblioteca iniciarBiblioteca() {
 		while (true) {
-			String resposta = lerLinha("Voce deseja iniciar a biblioteca a partir de arquivos de cadastro? (s/n): ");
+			String resposta = lerLinha("Iniciar a biblioteca a partir de arquivos de cadastro? (s/n): ");
 				
 			switch (resposta.toLowerCase()) {
 				case "n":
@@ -559,13 +607,20 @@ public class P3nX {
 			Long CPF = ValidaCPF.toLong(lerLinha("Digite o CPF do usuario que recebera o livro: "));
 			Usuario usuario = biblioteca.getUsuario(CPF);
 			
-			int codigo = lerInteiro("Digite o codigo do livro que sera emprestado: ");
-			Livro livro = biblioteca.getLivro(codigo);
+			if (maxLivrosEmprestados != 0 && usuario.getNumLivrosEmprestados() >= maxLivrosEmprestados) {
+				System.out.println("O usuario ja atingiu o limite de livros emprestados! Ele precisa devolver algum livro antes de fazer um outro emprestimo.");
 			
-			biblioteca.emprestaLivro(usuario, livro);
-			
-			imprimirRecibo(usuario, livro, true);
-		
+			} else if (periodoDevolucao != 0 && usuario.possuiLivroAtraso(periodoDevolucao)) {
+				System.out.println("O usuario ultrapassou o periodo de devolucao de um livro! Ele precisa devolver esse livro antes de fazer um outro emprestimo.");
+				
+			} else {	
+				int codigo = lerInteiro("Digite o codigo do livro que sera emprestado: ");
+				Livro livro = biblioteca.getLivro(codigo);
+				
+				biblioteca.emprestaLivro(usuario, livro);
+				
+				imprimirRecibo(usuario, livro, true);
+			}
 		} catch (IllegalArgumentException e) { // Ativa caso seja inserido um CPF de formato invalido
 			System.err.println("ERRO: " + e.getMessage());
 		
@@ -602,6 +657,10 @@ public class P3nX {
 			biblioteca.devolveLivro(usuario, livro);
 			
 			imprimirRecibo(usuario, livro, false);
+			
+			if (periodoDevolucao != 0 && usuario.possuiLivroAtraso(codigo, periodoDevolucao)) {
+				System.out.println("O usuario devolveu o livro com atraso e devera pagar uma multa pelo atraso!");
+			}
 			
 		} catch (IllegalArgumentException e) { // Ativa caso seja inserido um CPF de formato invalido
 			System.err.println("ERRO: " + e.getMessage());
