@@ -107,7 +107,7 @@ public class P3nX {
 				System.err.println("ERRO: Um dos arquivos nao foi encontrado ou nao pode ser lido.");
 			
 			} catch (IOException e) {
-				System.err.println("ERRO: Um problema de E/S ocorreu. Mais informacoes: \n" + e);
+				System.err.println("ERRO: Um problema de E/S ocorreu. \nMais informacoes: " + e);
 
 			} catch (ClassNotFoundException | ArquivoSerialInvalidoEx e) {
 				System.err.println("ERRO: Um dos arquivos informados nao contem o cadastro de usuarios/livros.");
@@ -607,10 +607,10 @@ public class P3nX {
 			Long CPF = ValidaCPF.toLong(lerLinha("Digite o CPF do usuario que recebera o livro: "));
 			Usuario usuario = biblioteca.getUsuario(CPF);
 			
-			if (maxLivrosEmprestados != 0 && usuario.getNumLivrosEmprestados() >= maxLivrosEmprestados) {
+			if (maxLivrosEmprestados > 0 && usuario.getNumLivrosEmprestados() >= maxLivrosEmprestados) {
 				System.out.println("O usuario ja atingiu o limite de livros emprestados! Ele precisa devolver algum livro antes de fazer um outro emprestimo.");
 			
-			} else if (periodoDevolucao != 0 && usuario.possuiLivroAtraso(periodoDevolucao)) {
+			} else if (periodoDevolucao > 0 && usuario.possuiLivroAtraso(periodoDevolucao)) {
 				System.out.println("O usuario ultrapassou o periodo de devolucao de um livro! Ele precisa devolver esse livro antes de fazer um outro emprestimo.");
 				
 			} else {	
@@ -658,8 +658,8 @@ public class P3nX {
 			
 			imprimirRecibo(usuario, livro, false);
 			
-			if (periodoDevolucao != 0 && usuario.possuiLivroAtraso(codigo, periodoDevolucao)) {
-				System.out.println("O usuario devolveu o livro com atraso e devera pagar uma multa pelo atraso!");
+			if (periodoDevolucao > 0 && usuario.possuiLivroAtraso(codigo, periodoDevolucao)) {
+				System.out.println("O usuario devolveu o livro com atraso e devera pagar uma multa!");
 			}
 			
 		} catch (IllegalArgumentException e) { // Ativa caso seja inserido um CPF de formato invalido

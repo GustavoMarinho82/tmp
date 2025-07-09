@@ -73,6 +73,7 @@ public class Biblioteca {
 			FileOutputStream fos = new FileOutputStream(nomeArq);
 			ObjectOutputStream oos = new ObjectOutputStream(fos)
 		) {
+			oos.writeUTF("USUARIOS");
 			oos.writeObject(cadUsuarios);
 		}
 	}
@@ -82,6 +83,7 @@ public class Biblioteca {
 			FileOutputStream fos = new FileOutputStream(nomeArq);
 			ObjectOutputStream oos = new ObjectOutputStream(fos)
 		) {
+			oos.writeUTF("LIVROS");
 			oos.writeObject(cadLivros);
 		}
 	}
@@ -92,10 +94,11 @@ public class Biblioteca {
 			FileInputStream fis = new FileInputStream(nomeArq);
 			ObjectInputStream ois = new ObjectInputStream(fis)
 		) {
+			if (!ois.readUTF().equals("USUARIOS")) {
+				throw new ArquivoSerialInvalidoEx();
+			}
+			
 			cadUsuarios = (Hashtable<Long, Usuario>) ois.readObject();
-		
-		} catch (ClassCastException e) {
-			throw new ArquivoSerialInvalidoEx();
 		}
 	}	
 	
@@ -105,10 +108,11 @@ public class Biblioteca {
 			FileInputStream fis = new FileInputStream(nomeArq);
 			ObjectInputStream ois = new ObjectInputStream(fis)
 		) {
+			if (!ois.readUTF().equals("LIVROS")) {
+				throw new ArquivoSerialInvalidoEx();
+			}
+			
 			cadLivros = (Hashtable<Integer, Livro>) ois.readObject();
-		
-		} catch (ClassCastException e) {
-			throw new ArquivoSerialInvalidoEx();
 		}
 	}
 
