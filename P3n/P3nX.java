@@ -2,8 +2,6 @@ import java.io.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -16,18 +14,14 @@ public class P3nX {
 	private Biblioteca biblioteca;
 	private String nomeArqUsuarios;
 	private String nomeArqLivros;
-
-	private static final DateTimeFormatter FORMATADOR_DATA = new DateTimeFormatterBuilder()
-		.appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy"))
-		.appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy"))
-		.toFormatter();
 		
 	// METODO PRINCIPAL
 	public static void main(String[] args) {
 		P3nX programa = new P3nX();
 		programa.executa();
 	}
-
+	
+	// METODOS AUXILIARES
 	private void executa() {
 		teclado = new Scanner(System.in);
 		
@@ -37,7 +31,6 @@ public class P3nX {
 		teclado.close();
 	}
 	
-	// METODOS AUXILIARES
 	private Biblioteca iniciarBiblioteca() {
 		while (true) {
 			String resposta = lerLinha("Voce deseja iniciar a biblioteca a partir de arquivos de cadastro? (s/n): ");
@@ -104,7 +97,7 @@ public class P3nX {
 					break;
 					
 				case 3:
-//					emprestimo();
+					emprestimo();
 					break;
 					
 				case 4:
@@ -145,8 +138,7 @@ public class P3nX {
 					break;
 					
 				case 3:
-					nomeArqUsuarios = lerLinha("Digite o nome do arquivo de usuarios: ");
-					nomeArqLivros = lerLinha("Agora, digite o nome do arquivo de livros: ");
+					selecionarArqs();
 					break;
 					
 				case 4:
@@ -442,6 +434,21 @@ public class P3nX {
 		digiteParaContinuar();
 	}
 	
+	private void selecionarArqs() {
+		String nomeTempUsu = lerLinha("Digite o nome do arquivo de usuarios: ");
+		String nomeTempLiv = lerLinha("Agora, digite o nome do arquivo de livros: ");
+		
+		if (arqDefinido(nomeTempUsu) && arqDefinido(nomeTempLiv)) {
+			nomeArqUsuarios = nomeTempUsu;
+			nomeArqLivros = nomeTempLiv;
+		
+		} else {
+			System.err.println("ERRO: o nome de um dos arquivos nao pode ser vazio!");
+		}
+		
+		digiteParaContinuar();
+	}
+	
 	private void cadastro() {
 		loop: while (true) {
 			System.out.println("\nO que voce deseja fazer?");
@@ -478,13 +485,11 @@ public class P3nX {
 		try {
 			String nome = lerLinha("Digite o nome do usuario: ");
 			String sobreNome = lerLinha("Digite o sobrenome do usuario: ");
-			String dataNascStr = lerLinha("Digite a data de nascimento do usuario: ");
+			LocalDate dataNasc = ValidaData.toLocalDate(lerLinha("Digite a data de nascimento do usuario: "));
 			String CPF = lerLinha("Digite o CPF do usuario: ");
 			Float peso = lerFloat("Digite o peso do usuario: ");
 			Float altura = lerFloat("Digite a altura do usuario: ");
 			String endereco = lerLinha("Digite o endereco do usuario: ");
-			
-			LocalDate dataNasc = LocalDate.parse(dataNascStr, FORMATADOR_DATA);
 			
 			biblioteca.cadastraUsuario(new Usuario(nome, sobreNome, dataNasc, CPF, peso, altura, endereco));
 			
@@ -506,9 +511,8 @@ public class P3nX {
 			int codigo = lerInteiro("Digite o codigo do livro: ");
 			String categoria = lerLinha("Digite a categoria do livro: ");
 			int disponiveis = lerInteiro("Quantas copias desse livro estao no acervo: ");
-			int emprestados = lerInteiro("Quantas copias desse livro estao sendo emprestadas no momento: ");
 			
-			biblioteca.cadastraLivro(new Livro(codigo, titulo, categoria, disponiveis, emprestados));
+			biblioteca.cadastraLivro(new Livro(codigo, titulo, categoria, disponiveis, 0));
 			
 			System.out.println("Livro cadastrado com sucesso!");
 			
@@ -518,10 +522,103 @@ public class P3nX {
 		
 		digiteParaContinuar();
 	}
+
+	private void emprestimo() {
+		loop: while (true) {
+			System.out.println("\nO que voce deseja fazer?");
+			System.out.println("1 - Fazer um emprestimo");
+			System.out.println("2 - Fazer uma devolucao");
+			System.out.println("3 - Cadastrar um livro");
+			System.out.println("4 - Voltar");
+			
+			int opcao = lerInteiro("Digite o numero da opcao correspondente: ");
+			
+			switch (opcao) {
+				case 1:
+					fazerEmprestimo();
+					break;
+					
+				case 2:
+					fazerDevolucao();
+					break;
+					
+				case 3:
+					cadastrarLivro();
+					break;
+					
+				case 4:
+					break loop;
+					
+				default:
+					System.out.println("Insira um numero de 1 a 4!");
+			}
+		}
+	}
 	
-//	private void emprestimo() {
+	private void fazerEmprestimo() {
+		try {
+			Long CPF = ValidaCPF.toLong(lerLinha("Digite o CPF do usuario que recebera o livro: "));
+			Usuario usuario = biblioteca.getUsuario(CPF);
+			
+			int codigo = lerInteiro("Digite o codigo do livro que sera emprestado: ");
+			Livro livro = biblioteca.getLivro(codigo);
+			
+			biblioteca.emprestaLivro(usuario, livro);
+			
+			imprimirRecibo(usuario, livro, true);
+		
+		} catch (IllegalArgumentException e) { // Ativa caso seja inserido um CPF de formato invalido
+			System.err.println("ERRO: " + e.getMessage());
+		
+		} catch (UsuarioNaoCadastradoEx e) {
+			System.err.println("ERRO: CPF nao encontrado nos cadastros de usuarios!");
+		
+		} catch (LivroNaoCadastradoEx e) {
+			System.err.println("ERRO: Codigo nao encontrado nos cadastros de livros!");
+		
+		} catch (CopiaNaoDisponivelEx e) {
+			System.err.println("ERRO: Nenhuma copia desse livro esta disponivel para emprestimo!");
+		}
+		
+		digiteParaContinuar();
+	}
 	
-//	}
+	private void imprimirRecibo(Usuario usuario, Livro livro, boolean emprestimo) {
+		String complemento = (emprestimo) ? "do emprestimo" : "da devolucao";
+		
+		System.out.println(String.format("\nRECIBO %s", complemento.toUpperCase()));
+		System.out.println(String.format("Usuario: %s %s (CPF: %s)", usuario.getNome(), usuario.getSobreNome(), usuario.getCPFFormatado()));
+		System.out.println(String.format("Livro: %s (cod: %d)", livro.getTitulo(), livro.getCodigo()));
+		System.out.println(String.format("Data %s: %s\n", complemento, ValidaData.formata(LocalDate.now())));
+	}
+	
+	private void fazerDevolucao() {
+		try {
+			Long CPF = ValidaCPF.toLong(lerLinha("Digite o CPF do usuario que devolvera o livro: "));
+			Usuario usuario = biblioteca.getUsuario(CPF);
+			
+			int codigo = lerInteiro("Digite o codigo do livro que sera devolvido: ");
+			Livro livro = biblioteca.getLivro(codigo);
+			
+			biblioteca.devolveLivro(usuario, livro);
+			
+			imprimirRecibo(usuario, livro, false);
+			
+		} catch (IllegalArgumentException e) { // Ativa caso seja inserido um CPF de formato invalido
+			System.err.println("ERRO: " + e.getMessage());
+		
+		} catch (UsuarioNaoCadastradoEx e) {
+			System.err.println("ERRO: CPF nao encontrado nos cadastros de usuarios!");
+		
+		} catch (LivroNaoCadastradoEx e) {
+			System.err.println("ERRO: Codigo nao encontrado nos cadastros de livros!");
+		
+		} catch (NenhumaCopiaEmprestadaEx e) {
+			System.err.println("ERRO: Nenhuma copia desse livro foi emprestada para o usuario!");
+		}
+		
+		digiteParaContinuar();
+	}
 
 	private void relatorio() {
 		loop: while (true) {	
@@ -536,10 +633,12 @@ public class P3nX {
 			
 			switch (opcao) {
 				case 1:
+					System.out.println("\nUSUARIOS CADASTRADOS: ");
 					System.out.println(biblioteca.imprimeUsuarios());
 					break;
 				
 				case 2:
+					System.out.println("\nLIVROS CADASTRADOS: ");
 					System.out.println(biblioteca.imprimeLivros());
 					break;
 					
@@ -567,6 +666,8 @@ public class P3nX {
 			String CPF = lerLinha("Digite o CPF do usuario: ");
 			
 			Usuario usuario = biblioteca.getUsuario(ValidaCPF.toLong(CPF));
+			
+			System.out.println("\nDADOS DO USUARIO: \n");
 			System.out.println(usuario.toStringCompleto());
 		
 		} catch (UsuarioNaoCadastradoEx e) {
@@ -582,6 +683,8 @@ public class P3nX {
 			int codigo = lerInteiro("Digite o codigo do livro: ");
 			
 			Livro livro = biblioteca.getLivro(codigo);
+			
+			System.out.println("\nDADOS DO LIVRO: \n");
 			System.out.println(livro.toStringCompleto());
 		
 		} catch (LivroNaoCadastradoEx e) {

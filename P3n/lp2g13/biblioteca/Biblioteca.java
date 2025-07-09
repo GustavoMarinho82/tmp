@@ -117,27 +117,34 @@ public class Biblioteca {
 		LocalDate agora = LocalDate.now();
 		livro.empresta();
 		livro.addUsuarioHist(usuario.getNumCPF(), agora, null);
-		usuario.addLivroHist(livro.getCodigo(), agora);
+		usuario.addLivroHist(livro.getCodigo(), agora, null);
 	}
 
 	public void devolveLivro(Usuario usuario, Livro livro) throws NenhumaCopiaEmprestadaEx {
 		LocalDate agora = LocalDate.now();
-		livro.devolve();
-		usuario.diminuirNumLivrosEmprestados();
-
+		boolean naoFoiEmprestado = true;
+		
 		for (EmprestPara registro: livro.getHist()) {
 			if (registro.getCPF() == usuario.getNumCPF() && registro.getDataDevolucao() == null) {
 				registro.setDataDevolucao(agora);
+				naoFoiEmprestado = false;
 				break;
 			}
 		}
 
+		if (naoFoiEmprestado) {
+			throw new NenhumaCopiaEmprestadaEx();
+		}
+		
 		for (Emprest registro: usuario.getHist()) {
 			if (registro.getCodLivro() == livro.getCodigo() && registro.getDataDevolucao() == null) {
 				registro.setDataDevolucao(agora);
 				break;
 			}
 		}
+		
+		livro.devolve();
+		usuario.diminuirNumLivrosEmprestados();
 	}
 	
 	public String imprimeUsuarios() {

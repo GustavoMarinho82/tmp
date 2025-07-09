@@ -1,11 +1,13 @@
 package lp2g13.biblioteca;
 
-import java.io.Serializable;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Emprest implements Serializable {
 	// ATRIBUTOS
+	private static final long serialVersionUID = 40L;
+	
 	private int codLivro;	
 	private LocalDate dataEmprestimo;
 	private LocalDate dataDevolucao = null;
@@ -60,15 +62,31 @@ public class Emprest implements Serializable {
 	}
 
 	public void setDataDevolucao(LocalDate dataDevolucao) {
-		if (!ValidaData.isAno(dataDevolucao.getYear())) {
-			throw new IllegalArgumentException("Data de devolucao invalida!");
-		}
-		
-		if (dataDevolucao.isBefore(dataEmprestimo)) {
-			throw new IllegalArgumentException("A data de devolucao nao pode ser anterior a data de emprestimo!");
+		if (dataDevolucao != null) { 
+			if (!ValidaData.isAno(dataDevolucao.getYear())) {
+				throw new IllegalArgumentException("Data de devolucao invalida!");
+			}
+			
+			if (dataDevolucao.isBefore(dataEmprestimo)) {
+				throw new IllegalArgumentException("A data de devolucao nao pode ser anterior a data de emprestimo!");
+			}
 		}
 		
 		this.dataDevolucao = dataDevolucao;
+	}
+	
+	// IMPLEMENTACAO DA SERIALIZACAO
+	// Isso foi necessario porque as datas nao estavam sendo salvas e lidas corretamente
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeObject(getDataEmprestimo());
+		oos.writeObject(getDataDevolucao());
+	}
+
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		ois.defaultReadObject();
+		setDataEmprestimo((LocalDate) ois.readObject());
+		setDataDevolucao((LocalDate) ois.readObject());
 	}
 	
 	// OUTROS METODOS

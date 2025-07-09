@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Pessoa implements Serializable {	
 	// ATRIBUTOS
+	private static final long serialVersionUID = 10L;
 	private static int numPessoas = 0;
 
 	private String nome;
@@ -141,6 +142,18 @@ public class Pessoa implements Serializable {
 
 		this.altura = altura;
 	}
+	
+	// IMPLEMENTACAO DA SERIALIZACAO
+	// Isso foi necessario porque a dataNasc nao estava sendo salva e lida corretamente
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.defaultWriteObject();
+		oos.writeObject(getDataNasc());
+	}
+
+	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+		ois.defaultReadObject();
+		setDataNasc((LocalDate) ois.readObject());
+	}
 
 	// OUTROS METODOS
 	public static int numPessoas() {
@@ -177,17 +190,5 @@ public class Pessoa implements Serializable {
 			getPeso(), 
 			getAltura()
 		);
-	}
-	
-	// IMPLEMENTACAO DA SERIALIZACAO
-	// Isso foi necessario porque a dataNasc nao estava sendo salva e lida
-	private void writeObject(ObjectOutputStream oos) throws IOException {
-		oos.defaultWriteObject();
-		oos.writeObject(getDataNasc());
-	}
-
-	private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
-		ois.defaultReadObject();
-		setDataNasc((LocalDate) ois.readObject());
 	}
 }

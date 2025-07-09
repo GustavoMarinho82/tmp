@@ -1,5 +1,7 @@
 package lp2g13.biblioteca;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
@@ -10,6 +12,10 @@ public class ValidaData {
 	// ATRIBUTOS
 	private static final String PADRAO1 = "(\\d+)[-/\\\\](\\d+)[-/\\\\](\\d+)";
 	private static final String PADRAO2 = "(\\d+) de ([A-Za-z]+) de (\\d+)";
+	private static final DateTimeFormatter FORMATADOR = new DateTimeFormatterBuilder()
+		.appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy"))
+		.appendOptional(DateTimeFormatter.ofPattern("d/M/yyyy"))
+		.toFormatter();
 
 	// ENUM
 	private enum Mes {
@@ -145,5 +151,13 @@ public class ValidaData {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public static LocalDate toLocalDate(String data) {
+		return LocalDate.parse(data, FORMATADOR);
+	}
+	
+	public static String formata(LocalDate data) {
+		return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 	}
 }

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 public class Usuario extends Pessoa implements Serializable {
 	// ATRIBUTOS
+	private static final long serialVersionUID = 20L;
+	
 	private String endereco;
-
 	private ArrayList<Emprest> hist = new ArrayList<>();
 	private int numLivrosEmprestados = 0; // Numero de livros que estao sendo emprestados ao usuario atualmente
 
@@ -33,12 +34,17 @@ public class Usuario extends Pessoa implements Serializable {
 	}
 	
 	public String getHistFormatado() {
+		if (hist.size() == 0) {
+			return "vazio";
+		}
+		
 		StringBuilder histFormatado = new StringBuilder();
 		
 		for (int i = 0; i < hist.size(); i++) {
 			Emprest registro = hist.get(i);
-			histFormatado.append(String.format("Registro {} - Emprestimo: {} | Devolucao: {} \n", 
+			histFormatado.append(String.format("\n Registro %d - Cod. do livro: %d | Data do emprestimo: %s | Data da devolucao: %s", 
 				(i+1), 
+				registro.getCodLivro(),
 				registro.getDataEmprestimoFormatada(), 
 				registro.getDataDevolucaoFormatada()
 			));
@@ -69,17 +75,20 @@ public class Usuario extends Pessoa implements Serializable {
 		numLivrosEmprestados--;
 	}
 
-	public void addLivroHist(int codLivro, LocalDate dataEmprestimo) {
-		hist.add(new Emprest(codLivro, dataEmprestimo));
-		aumentarNumLivrosEmprestados();
+	public void addLivroHist(int codLivro, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
+		hist.add(new Emprest(codLivro, dataEmprestimo, dataDevolucao));
+		
+		if (dataDevolucao == null) {
+			aumentarNumLivrosEmprestados();
+		}
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "Endereco: " + getEndereco() + "\n";
+		return super.toString() + String.format("Endereco: %s\n", getEndereco());
 	}
 
 	public String toStringCompleto() {
-		return this.toString() + "Historico: \n" + getHistFormatado();
+		return this.toString() + String.format("Historico: %s\n", getHistFormatado());
 	}
 }

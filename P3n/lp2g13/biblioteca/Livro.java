@@ -6,10 +6,12 @@ import java.util.ArrayList;
 
 public class Livro implements Serializable {
 	// ATRIBUTOS
+	private static final long serialVersionUID = 30L;
+	
 	private int codigo;
 	private String titulo;
 	private String categoria;
-	private int disponiveis; // Numero de copias disponiveis no acervo
+	private int disponiveis;
 	private int emprestados;
 	
 	private ArrayList<EmprestPara> hist = new ArrayList<>();
@@ -49,12 +51,17 @@ public class Livro implements Serializable {
 	}
 
 	public String getHistFormatado() {
+		if (hist.size() == 0) {
+			return "vazio";
+		}
+		
 		StringBuilder histFormatado = new StringBuilder();
 		
 		for (int i = 0; i < hist.size(); i++) {
 			EmprestPara registro = hist.get(i);
-			histFormatado.append(String.format("Registro {} - Emprestimo: {} | Devolucao: {} \n", 
+			histFormatado.append(String.format("\n Registro %d - CPF do usuario: %s | Data do emprestimo: %s | Data da devolucao: %s", 
 				(i+1), 
+				registro.getCPFFormatado(),
 				registro.getDataEmprestimoFormatada(), 
 				registro.getDataDevolucaoFormatada()
 			));
@@ -106,10 +113,11 @@ public class Livro implements Serializable {
 
 	// OUTROS METODOS	
 	public void empresta() throws CopiaNaoDisponivelEx {
-		if (emprestados == disponiveis) {
+		if (disponiveis == 0) {
 			throw new CopiaNaoDisponivelEx();
 		}
 		
+		disponiveis--;
 		emprestados++;
 	}
 	
@@ -118,11 +126,12 @@ public class Livro implements Serializable {
 			throw new NenhumaCopiaEmprestadaEx();
 		}
 		
+		disponiveis++;
 		emprestados--;
 	}
 	
 	public void addUsuarioHist(long CPF, LocalDate dataEmprestimo, LocalDate dataDevolucao) {
-		hist.add(new EmprestPara(CPF, dataEmprestimo, dataDevolucao));		
+		hist.add(new EmprestPara(CPF, dataEmprestimo, dataDevolucao));
 	}
 	
 	@Override
@@ -137,6 +146,6 @@ public class Livro implements Serializable {
 	}
 
 	public String toStringCompleto() {
-		return this.toString() + "Historico: \n" + getHistFormatado();
+		return this.toString() + String.format("Historico: %s\n", getHistFormatado());
 	}
 }
