@@ -366,7 +366,7 @@ public class P3nX {
 					break loop;
 				
 				default:
-					System.out.println("Insira um numero de 1 a 6!");
+					System.out.println("Insira um numero de 1 a 4!");
 			}
 		}
 	}
