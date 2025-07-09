@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # SCRIPT PARA INICIAR O PROGRAMA NUM SISTEMA LINUX
 
 classpath=$(dirname $(realpath $0))
