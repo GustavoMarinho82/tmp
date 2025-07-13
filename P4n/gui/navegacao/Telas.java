@@ -1,4 +1,4 @@
-package ui;
+package gui.navegacao;
 
 public enum Telas {
 	INICIAL,

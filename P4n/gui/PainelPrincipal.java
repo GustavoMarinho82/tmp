@@ -1,17 +1,20 @@
-package ui;
+package gui;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import gui.navegacao.Telas;
+
 public class PainelPrincipal extends JPanel {
-	// COMPONENTES
+	// ATRIBUTOS
 	private JLabel texto;
 	private JButton botaoManutencao;
 	private JButton botaoCadastro;
 	private JButton botaoEmprestimo;
 	private JButton botaoRelatorio;
+	private JPanel painel;
 	
 	private ActionListener al;
 	
@@ -24,15 +27,6 @@ public class PainelPrincipal extends JPanel {
 		configurarComponentes();
 		
 		setLayout(new BorderLayout());
-		
-		JPanel painel = new JPanel(new GridLayout(5, 1));
-		
-		painel.add(texto);
-		painel.add(enveloparBotao(botaoManutencao));
-		painel.add(enveloparBotao(botaoCadastro));
-		painel.add(enveloparBotao(botaoEmprestimo));
-		painel.add(enveloparBotao(botaoRelatorio));
-		
 		add(painel, BorderLayout.NORTH);
 	}
 	
@@ -43,21 +37,22 @@ public class PainelPrincipal extends JPanel {
 		botaoCadastro = new JButton("Cadastro");
 		botaoEmprestimo = new JButton("Emprestimo");
 		botaoRelatorio = new JButton("Relatorio");
+		painel = new JPanel(new GridLayout(5, 1));
 
 		botaoManutencao.addActionListener(al);
 		botaoCadastro.addActionListener(al);
 		botaoEmprestimo.addActionListener(al);
 		botaoRelatorio.addActionListener(al);
 		
-		botaoManutencao.setActionCommand(Telas.PRINCIPAL.toString());
+		botaoManutencao.setActionCommand(Telas.MANUTENCAO.toString());
 		botaoCadastro.setActionCommand(Telas.CADASTRO.toString());
 		botaoEmprestimo.setActionCommand(Telas.EMPRESTIMO.toString());
 		botaoRelatorio.setActionCommand(Telas.RELATORIO.toString());
 	}
 	
 	private void configurarComponentes() {
-		Font fonteTexto = new Font("Arial", Font.BOLD, 20);
-		Font fonteBotoes = new Font("Arial", Font.PLAIN, 18);
+		Font fonteTexto = new Font("Monospaced", Font.BOLD, 20);
+		Font fonteBotoes = new Font("Monospaced", Font.PLAIN, 18);
 		
 		texto.setFont(fonteTexto);
 		botaoManutencao.setFont(fonteBotoes);
@@ -74,6 +69,12 @@ public class PainelPrincipal extends JPanel {
 		
 		texto.setHorizontalAlignment(JLabel.CENTER);
 		texto.setBorder(new EmptyBorder(25, 0, 25, 0));
+		
+		painel.add(texto);
+		painel.add(enveloparBotao(botaoManutencao));
+		painel.add(enveloparBotao(botaoCadastro));
+		painel.add(enveloparBotao(botaoEmprestimo));
+		painel.add(enveloparBotao(botaoRelatorio));
 	}
     
 	private JPanel enveloparBotao(JButton botao) {
