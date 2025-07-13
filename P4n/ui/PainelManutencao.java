@@ -1,11 +1,10 @@
 package ui;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-public class PainelPrincipal extends JPanel {
+public class PainelManutencao extends JPanel {
 	// COMPONENTES
 	private JLabel texto;
 	private JButton botaoManutencao;
@@ -13,13 +12,9 @@ public class PainelPrincipal extends JPanel {
 	private JButton botaoEmprestimo;
 	private JButton botaoRelatorio;
 	
-	private ActionListener al;
-	
 	// CONSTRUTOR
-	public PainelPrincipal(ActionListener al) {
+	public PainelManutencao() {
 		super();
-		
-		this.al = al;
 		inicializarComponentes();
 		configurarComponentes();
 		
@@ -39,20 +34,10 @@ public class PainelPrincipal extends JPanel {
 	// METODOS
 	private void inicializarComponentes() {
 		texto = new JLabel("Voce deseja ir para qual secao?");
-		botaoManutencao = new JButton("Manutencao");
+		botaoManutencao = new JButton("AAAAAAAAAAAAAAaaa");
 		botaoCadastro = new JButton("Cadastro");
 		botaoEmprestimo = new JButton("Emprestimo");
 		botaoRelatorio = new JButton("Relatorio");
-
-		botaoManutencao.addActionListener(al);
-		botaoCadastro.addActionListener(al);
-		botaoEmprestimo.addActionListener(al);
-		botaoRelatorio.addActionListener(al);
-		
-		botaoManutencao.setActionCommand(Telas.PRINCIPAL.toString());
-		botaoCadastro.setActionCommand(Telas.CADASTRO.toString());
-		botaoEmprestimo.setActionCommand(Telas.EMPRESTIMO.toString());
-		botaoRelatorio.setActionCommand(Telas.RELATORIO.toString());
 	}
 	
 	private void configurarComponentes() {
