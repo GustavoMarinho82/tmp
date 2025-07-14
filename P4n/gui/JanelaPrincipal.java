@@ -6,7 +6,7 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import controlador.Controlador;
+import controle.Controlador;
 import gui.navegacao.Telas;
 
 public class JanelaPrincipal extends JFrame {
@@ -59,5 +59,9 @@ public class JanelaPrincipal extends JFrame {
 	
 	public PainelInicial getPainelInicial() {
 		return painelInicial;
+    }
+    
+    public PainelManutencao getPainelManutencao() {
+		return painelManutencao;
     }
 }

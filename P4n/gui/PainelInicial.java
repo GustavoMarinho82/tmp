@@ -21,7 +21,7 @@ public class PainelInicial extends JPanel {
 	private JButton botaoArqLivros;
 	private JButton botaoIniciar;
 	
-	private JPanel painelPrincipal;
+	private JPanel painel;
 	
 	private ActionListener al;
 	
@@ -38,8 +38,8 @@ public class PainelInicial extends JPanel {
 	private void inicializarComponentes() {
 		textoPolitica = new JLabel("Iniciar com uma politica personalizada (de config.properties): ");
 		textoArqs = new JLabel("Carregar dados dos arquivos de cadastros (se preferir): ");
-		textoArqUsuarios = new JLabel("Arquivo: nao definido");
-		textoArqLivros = new JLabel("Arquivo: nao definido");
+		textoArqUsuarios = new JLabel("Arquivo: Nao definido");
+		textoArqLivros = new JLabel("Arquivo: Nao definido");
 		
 		botaoSim = new JRadioButton("Sim");
 		botaoNao = new JRadioButton("Nao", true);
@@ -51,8 +51,8 @@ public class PainelInicial extends JPanel {
 		botaoArqLivros = new JButton("Livros");
 		botaoIniciar = new JButton("Iniciar Biblioteca");
 		
-		painelPrincipal = new JPanel();
-		painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
+		painel = new JPanel();
+		painel.setLayout(new BoxLayout(painel, BoxLayout.Y_AXIS));
 		
 		botaoArqUsuarios.addActionListener(al);
 		botaoArqLivros.addActionListener(al);
@@ -97,14 +97,14 @@ public class PainelInicial extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(20, 20, 10, 20));
 
-		painelPrincipal.add(textoPolitica);
-		painelPrincipal.add(botaoSim);
-		painelPrincipal.add(botaoNao);
-		painelPrincipal.add(textoArqs);
-		painelPrincipal.add(criarPainelArq(botaoArqUsuarios, textoArqUsuarios));
-		painelPrincipal.add(criarPainelArq(botaoArqLivros, textoArqLivros));
+		painel.add(textoPolitica);
+		painel.add(botaoSim);
+		painel.add(botaoNao);
+		painel.add(textoArqs);
+		painel.add(criarPainelArq(botaoArqUsuarios, textoArqUsuarios));
+		painel.add(criarPainelArq(botaoArqLivros, textoArqLivros));
 		
-		add(painelPrincipal, BorderLayout.NORTH);
+		add(painel, BorderLayout.NORTH);
 		add(enveloparBotao(botaoIniciar), BorderLayout.SOUTH);
 	}	
 		

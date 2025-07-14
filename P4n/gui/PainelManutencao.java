@@ -10,57 +10,68 @@ import gui.navegacao.Telas;
 public class PainelManutencao extends JPanel {
 	// ATRIBUTOS
 	private JLabel titulo;
+	private JLabel textoArqUsuarios;
+	private JLabel textoArqLivros;
+	
 	private JButton botaoSalvar;
 	private JButton botaoCarregar;
 	private JButton botaoSelecionar;
 	private JButton botaoVoltar;
-	private JPanel painel;
+	
+	private JPanel painelPrincipal;
+	private JPanel painelTextos;
 	
 	private ActionListener al;
 	
 	// CONSTRUTOR
 	public PainelManutencao(ActionListener al) {
 		super();
-		
 		this.al = al;
 		inicializarComponentes();
 		configurarComponentes();
-		
-		setLayout(new BorderLayout());
-		add(painel, BorderLayout.NORTH);
-		add(enveloparBotao(botaoVoltar), BorderLayout.SOUTH);
+		montarLayout();
 	}
 	
 	// METODOS
 	private void inicializarComponentes() {
 		titulo = new JLabel("MANUTENCAO");
+		textoArqUsuarios = new JLabel("Arquivo de Usuarios: Nao definido");
+		textoArqLivros = new JLabel("Arquivo de Livros: Nao definido");
+		
 		botaoSalvar = new JButton("Salvar Cadastros");
 		botaoCarregar = new JButton("Carregar Cadastros");
 		botaoSelecionar = new JButton("Selecionar Arquivos");
 		botaoVoltar = new JButton("Voltar");
-		painel = new JPanel(new GridLayout(4, 1));
+		
+		painelPrincipal = new JPanel(new GridLayout(5, 1));
+		painelTextos = new JPanel();
+		painelTextos.setLayout(new BoxLayout(painelTextos, BoxLayout.Y_AXIS));
 		
 		botaoSalvar.addActionListener(al);
 		botaoCarregar.addActionListener(al);
-//		botaoSelecionar.addActionListener(al);
+		botaoSelecionar.addActionListener(al);
 		botaoVoltar.addActionListener(al);
 		
 		botaoSalvar.setActionCommand("SALVAR CADASTROS");
 		botaoCarregar.setActionCommand("CARREGAR CADASTROS");
-//		botaoSelecionar.setActionCommand(Telas.EMPRESTIMO.toString());
+		botaoSelecionar.setActionCommand("SELECIONAR ARQUIVOS");
 		botaoVoltar.setActionCommand(Telas.PRINCIPAL.toString());
 	}
 	
 	private void configurarComponentes() {
-		Font fonteTitulo = new Font("Monospaced", Font.BOLD, 20);
+		// FONTES
+		Font fonteTextos = new Font("Monospaced", Font.PLAIN, 16);
 		Font fonteBotoes = new Font("Monospaced", Font.PLAIN, 18);
 		
-		titulo.setFont(fonteTitulo);
+		titulo.setFont(new Font("Monospaced", Font.BOLD, 20));
+		textoArqUsuarios.setFont(fonteTextos);
+		textoArqLivros.setFont(fonteTextos);
 		botaoSalvar.setFont(fonteBotoes);
 		botaoCarregar.setFont(fonteBotoes);
 		botaoSelecionar.setFont(fonteBotoes);
 		botaoVoltar.setFont(fonteBotoes);
 		
+		// DIMENSOES
 		Dimension tamanhoBotoes = new Dimension(350, 50);
 		
 		botaoSalvar.setPreferredSize(tamanhoBotoes);
@@ -68,19 +79,44 @@ public class PainelManutencao extends JPanel {
 		botaoSelecionar.setPreferredSize(tamanhoBotoes);
 		botaoVoltar.setPreferredSize(tamanhoBotoes);
 		
-		titulo.setHorizontalAlignment(JLabel.CENTER);
-		titulo.setBorder(new EmptyBorder(25, 0, 25, 0));
+		// BORDAS
+		titulo.setBorder(new EmptyBorder(0, 0, 15, 0));
+		textoArqUsuarios.setBorder(new EmptyBorder(10, 0, 0, 0));
+		textoArqLivros.setBorder(new EmptyBorder(10, 0, 0, 0));
 		
-		painel.add(titulo);
-		painel.add(enveloparBotao(botaoSalvar));
-		painel.add(enveloparBotao(botaoCarregar));
-		painel.add(enveloparBotao(botaoSelecionar));
+		// ALINHAMENTOS
+		titulo.setHorizontalAlignment(JLabel.CENTER);
+		textoArqUsuarios.setAlignmentX(Component.CENTER_ALIGNMENT);
+		textoArqLivros.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
-    
+	
+	private void montarLayout() {
+		setLayout(new BorderLayout());
+		setBorder(new EmptyBorder(20, 0, 10, 0));
+
+		painelPrincipal.add(titulo);
+		painelPrincipal.add(enveloparBotao(botaoSalvar));
+		painelPrincipal.add(enveloparBotao(botaoCarregar));
+		painelPrincipal.add(enveloparBotao(botaoSelecionar));
+		painelTextos.add(textoArqUsuarios);
+		painelTextos.add(textoArqLivros);
+		painelPrincipal.add(painelTextos);
+		
+		add(painelPrincipal, BorderLayout.NORTH);
+		add(enveloparBotao(botaoVoltar), BorderLayout.SOUTH);
+	}
+	
 	private JPanel enveloparBotao(JButton botao) {
 		JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		painel.setBorder(new EmptyBorder(0, 0, 10, 0));
 		painel.add(botao);
 		return painel;
+	}
+	
+	public void alterarTextoArqUsuarios(String nomeArq) {
+		textoArqUsuarios.setText("Arquivo de Usuarios: " + nomeArq);
+	}
+
+	public void alterarTextoArqLivros(String nomeArq) {
+		textoArqLivros.setText("Arquivo de Livros: " + nomeArq);
 	}
 }

@@ -32,10 +32,12 @@ public class PainelPrincipal extends JPanel {
 	// METODOS
 	private void inicializarComponentes() {
 		texto = new JLabel("Voce deseja ir para qual secao?");
+		
 		botaoManutencao = new JButton("Manutencao");
 		botaoCadastro = new JButton("Cadastro");
 		botaoEmprestimo = new JButton("Emprestimo");
 		botaoRelatorio = new JButton("Relatorio");
+		
 		painel = new JPanel(new GridLayout(5, 1));
 
 		botaoManutencao.addActionListener(al);
@@ -68,13 +70,13 @@ public class PainelPrincipal extends JPanel {
 		botaoRelatorio.setPreferredSize(tamanhoBotoes);
 		
 		// BORDAS
-		texto.setBorder(new EmptyBorder(0, 0, 25, 0));
+		texto.setBorder(new EmptyBorder(0, 0, 15, 0));
 		
 		// ALINHAMENTOS
 		texto.setHorizontalAlignment(JLabel.CENTER);
 	}
     
-    private void montarLayout() {
+	private void montarLayout() {
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(20, 0, 10, 0));
 		
