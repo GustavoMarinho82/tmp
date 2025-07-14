@@ -1,21 +1,23 @@
 package gui;
 
-import java.awt.CardLayout;
-import java.awt.event.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import controlador.Controlador;
 import gui.navegacao.Telas;
-import entidade.Biblioteca;
 
-public class JanelaPrincipal extends JFrame implements ActionListener {
+public class JanelaPrincipal extends JFrame {
 	// ATRIBUTOS
+	private Controlador controlador;
 	private JPanel paineis;
 	private BufferedImage icone;
 	
-	private Biblioteca biblioteca;
+	private PainelInicial painelInicial;
+	private PainelPrincipal painelPrincipal;
+	private PainelManutencao painelManutencao;
 	
 	// CONSTRUTOR
 	public JanelaPrincipal() {
@@ -32,9 +34,15 @@ public class JanelaPrincipal extends JFrame implements ActionListener {
 	
 	// METODOS
 	private void inicializarComponentes() {
+		controlador = new Controlador(this);
+		painelInicial = new PainelInicial(controlador);
+		painelPrincipal = new PainelPrincipal(controlador);
+		painelManutencao = new PainelManutencao(controlador);
+	
 		paineis = new JPanel(new CardLayout());
-		paineis.add(new PainelPrincipal(this), Telas.PRINCIPAL.toString());
-		paineis.add(new PainelManutencao(this), Telas.MANUTENCAO.toString());
+		paineis.add(painelInicial, Telas.INICIAL.toString());
+		paineis.add(painelPrincipal, Telas.PRINCIPAL.toString());
+		paineis.add(painelManutencao, Telas.MANUTENCAO.toString());
 		
 		try {
 			icone = ImageIO.read(new File ("imagens/IconeLivro.png"));
@@ -44,38 +52,12 @@ public class JanelaPrincipal extends JFrame implements ActionListener {
 		}
 	}
 		
-	private void trocarPainel(String nomePainel) {
+	public void trocarPainel(String nomePainel) {
 		CardLayout cl = (CardLayout) paineis.getLayout();
 		cl.show(paineis, nomePainel);
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		String comando = event.getActionCommand();
-		
-		switch (comando) {
-			case "SALVAR CADASTROS":
-				dialogoCadastros("Salvar");
-			break;
-			case "CARREGAR CADASTROS":
-				dialogoCadastros("Carregar");
-			break;
-			default: trocarPainel(comando);
-		}
-	}
-	
-	private void dialogoCadastros(String acao) {
-		Object[] options = {"Usuarios", "Livros", "Ambos"};
-		
-		int n = JOptionPane.showOptionDialog(null,
-			acao + "os cadastro de: ",
-			"",
-			JOptionPane.DEFAULT_OPTION,
-			JOptionPane.QUESTION_MESSAGE,
-			null,
-			options,
-			options[0]);
-			
-		System.out.println(n);
-	}
+	public PainelInicial getPainelInicial() {
+		return painelInicial;
+    }
 }

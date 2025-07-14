@@ -1,23 +1,138 @@
 package gui;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import gui.navegacao.Telas;
 
 public class PainelInicial extends JPanel {
-	// COMPONENTES
-	private JLabel textoPolPer = new JLabel("Voce deseja iniciar a biblioteca com uma politica personalizada (do arquivo config.properties)?", JLabel.LEFT);
-	private JLabel textoArqsCad = new JLabel("Iniciar a biblioteca a partir de arquivos de cadastro? (s/n)", JLabel.LEFT);
-	private JButton botaoPol = new JButton("Selecionar arquivo");
-	private JButton botao = new JButton("Selecionar arquivo");
+	// ATRIBUTOS
+	private JLabel textoPolitica;
+	private JLabel textoArqs;
+	private JLabel textoArqUsuarios;
+	private JLabel textoArqLivros;
+	
+	private JRadioButton botaoSim;
+	private JRadioButton botaoNao;
+	private ButtonGroup botoesPolitica;
+	private JButton botaoArqUsuarios;
+	private JButton botaoArqLivros;
+	private JButton botaoIniciar;
+	
+	private JPanel painelPrincipal;
+	
+	private ActionListener al;
 	
 	// CONSTRUTOR
-	public PainelInicial() {
+	public PainelInicial(ActionListener al) {
 		super();
-		add(textoPolPer);
-		add(botaoPol);
-		add(textoArqsCad);
-		add(botao);
+		this.al = al;
+		inicializarComponentes();
+		configurarComponentes();
+		montarLayout();
+	}
+	
+	// METODOS
+	private void inicializarComponentes() {
+		textoPolitica = new JLabel("Iniciar com uma politica personalizada (de config.properties): ");
+		textoArqs = new JLabel("Carregar dados dos arquivos de cadastros (se preferir): ");
+		textoArqUsuarios = new JLabel("Arquivo: nao definido");
+		textoArqLivros = new JLabel("Arquivo: nao definido");
 		
-		setLayout(new GridLayout(2, 2));
+		botaoSim = new JRadioButton("Sim");
+		botaoNao = new JRadioButton("Nao", true);
+		botoesPolitica = new ButtonGroup();
+		botoesPolitica.add(botaoSim);
+		botoesPolitica.add(botaoNao);
+		
+		botaoArqUsuarios = new JButton("Usuarios");
+		botaoArqLivros = new JButton("Livros");
+		botaoIniciar = new JButton("Iniciar Biblioteca");
+		
+		painelPrincipal = new JPanel();
+		painelPrincipal.setLayout(new BoxLayout(painelPrincipal, BoxLayout.Y_AXIS));
+		
+		botaoArqUsuarios.addActionListener(al);
+		botaoArqLivros.addActionListener(al);
+		botaoIniciar.addActionListener(al);
+		
+		botaoArqUsuarios.setActionCommand("SELECIONAR ARQ USUARIOS");
+		botaoArqLivros.setActionCommand("SELECIONAR ARQ LIVROS");
+		botaoIniciar.setActionCommand("INICIAR BIBLIOTECA");
+	}
+	
+	private void configurarComponentes() {
+		// FONTES
+		Font fontePadrao = new Font("Monospaced", Font.PLAIN, 12);
+		
+		textoPolitica.setFont(fontePadrao);
+		textoArqs.setFont(fontePadrao);
+		textoArqUsuarios.setFont(fontePadrao);
+		textoArqLivros.setFont(fontePadrao);
+		botaoSim.setFont(fontePadrao);
+		botaoNao.setFont(fontePadrao);
+		botaoArqUsuarios.setFont(fontePadrao);
+		botaoArqLivros.setFont(fontePadrao);
+		botaoIniciar.setFont(new Font("Monospaced", Font.PLAIN, 18));
+		
+		// DIMENSOES
+		Dimension tamanhoBotoesArqs = new Dimension(100, 25);
+		
+		botaoArqUsuarios.setPreferredSize(tamanhoBotoesArqs);
+		botaoArqLivros.setPreferredSize(tamanhoBotoesArqs);
+		botaoIniciar.setPreferredSize(new Dimension(350, 50));
+		
+		// BORDAS
+		EmptyBorder bordaBotoes = new EmptyBorder(0, 10, 10, 0);
+		
+		textoPolitica.setBorder(new EmptyBorder(0, 0, 10, 0));
+		botaoSim.setBorder(bordaBotoes);
+		botaoNao.setBorder(bordaBotoes);
+		textoArqs.setBorder(new EmptyBorder(10, 0, 5, 0));
+	}
+	
+	private void montarLayout() {
+		setLayout(new BorderLayout());
+		setBorder(new EmptyBorder(20, 20, 10, 20));
+
+		painelPrincipal.add(textoPolitica);
+		painelPrincipal.add(botaoSim);
+		painelPrincipal.add(botaoNao);
+		painelPrincipal.add(textoArqs);
+		painelPrincipal.add(criarPainelArq(botaoArqUsuarios, textoArqUsuarios));
+		painelPrincipal.add(criarPainelArq(botaoArqLivros, textoArqLivros));
+		
+		add(painelPrincipal, BorderLayout.NORTH);
+		add(enveloparBotao(botaoIniciar), BorderLayout.SOUTH);
+	}	
+		
+	private JPanel enveloparBotao(JButton botao) {
+		JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		painel.add(botao);
+		return painel;
+	}
+	
+	private JPanel criarPainelArq(JButton botao, JLabel texto) {
+		JPanel painel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		painel.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		painel.add(botao);
+		painel.add(texto);
+		
+		return painel;
+	}
+
+	public void alterarTextoArqUsuarios(String nomeArq) {
+		textoArqUsuarios.setText("Arquivo: " + nomeArq);
+	}
+
+	public void alterarTextoArqLivros(String nomeArq) {
+		textoArqLivros.setText("Arquivo: " + nomeArq);
+	}
+	
+	public boolean ativadaPolPersonalizada() {
+		return botaoSim.isSelected();
 	}
 }
