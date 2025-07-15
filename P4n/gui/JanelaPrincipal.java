@@ -18,6 +18,9 @@ public class JanelaPrincipal extends JFrame {
 	private PainelInicial painelInicial;
 	private PainelPrincipal painelPrincipal;
 	private PainelManutencao painelManutencao;
+	private PainelCadastro painelCadastro;
+	private PainelCadUsuario painelCadUsuario;
+	private PainelCadLivro painelCadLivro;
 	
 	// CONSTRUTOR
 	public JanelaPrincipal() {
@@ -38,11 +41,17 @@ public class JanelaPrincipal extends JFrame {
 		painelInicial = new PainelInicial(controlador);
 		painelPrincipal = new PainelPrincipal(controlador);
 		painelManutencao = new PainelManutencao(controlador);
+		painelCadastro = new PainelCadastro(controlador);
+		painelCadUsuario = new PainelCadUsuario(controlador);
+		painelCadLivro = new PainelCadLivro(controlador);
 	
 		paineis = new JPanel(new CardLayout());
 		paineis.add(painelInicial, Telas.INICIAL.toString());
 		paineis.add(painelPrincipal, Telas.PRINCIPAL.toString());
 		paineis.add(painelManutencao, Telas.MANUTENCAO.toString());
+		paineis.add(painelCadastro, Telas.CADASTRO.toString());
+		paineis.add(painelCadUsuario, Telas.CAD_USUARIO.toString());
+		paineis.add(painelCadLivro, Telas.CAD_LIVRO.toString());
 		
 		try {
 			icone = ImageIO.read(new File ("imagens/IconeLivro.png"));

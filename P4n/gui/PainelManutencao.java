@@ -82,7 +82,7 @@ public class PainelManutencao extends JPanel {
 		// BORDAS
 		titulo.setBorder(new EmptyBorder(0, 0, 15, 0));
 		textoArqUsuarios.setBorder(new EmptyBorder(10, 0, 0, 0));
-		textoArqLivros.setBorder(new EmptyBorder(10, 0, 0, 0));
+		textoArqLivros.setBorder(new EmptyBorder(5, 0, 0, 0));
 		
 		// ALINHAMENTOS
 		titulo.setHorizontalAlignment(JLabel.CENTER);
