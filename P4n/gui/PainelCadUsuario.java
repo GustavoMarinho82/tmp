@@ -11,6 +11,9 @@ import gui.util.SpringUtilities;
 
 public class PainelCadUsuario extends JPanel {
 	// ATRIBUTOS
+	private final double PESO_PADRAO = 50;
+	private final double ALTURA_PADRAO = 1.7;
+	
 	private JLabel titulo;
 	private JLabel textoNome;
 	private JLabel textoSobrenome;
@@ -58,8 +61,8 @@ public class PainelCadUsuario extends JPanel {
 		
 		campoNome = new JTextField();
 		campoSobrenome = new JTextField();
-		campoPeso = new JSpinner(new SpinnerNumberModel(50.0, 0.3, 650.0, 0.1));
-		campoAltura = new JSpinner(new SpinnerNumberModel(1.7, 0.5, 3.0, 0.01));
+		campoPeso = new JSpinner(new SpinnerNumberModel(PESO_PADRAO, 0.3, 650.0, 0.1));
+		campoAltura = new JSpinner(new SpinnerNumberModel(ALTURA_PADRAO, 0.5, 3.0, 0.01));
 		campoEndereco = new JTextField();
 		
 		try {
@@ -107,16 +110,16 @@ public class PainelCadUsuario extends JPanel {
 		botaoVoltar.setFont(fonteBotoes);
 		
 		// DIMENSOES
+		Dimension tamanhoCampos = new Dimension(240, 20);
 		Dimension tamanhoBotoes = new Dimension(172, 50);
 		
-		textoNome.setFont(fonteTextos);
-		textoSobrenome.setFont(fonteTextos);
-		textoDataNasc.setFont(fonteTextos);
-		textoCPF.setFont(fonteTextos);
-		textoPeso.setFont(fonteTextos);
-		textoAltura.setFont(fonteTextos);
-		textoEndereco.setFont(fonteTextos);
-		
+		campoNome.setPreferredSize(tamanhoCampos);
+		campoSobrenome.setPreferredSize(tamanhoCampos);
+		campoDataNasc.setPreferredSize(tamanhoCampos);
+		campoCPF.setPreferredSize(tamanhoCampos);
+		campoPeso.setPreferredSize(tamanhoCampos);
+		campoAltura.setPreferredSize(tamanhoCampos);
+		campoEndereco.setPreferredSize(tamanhoCampos);
 		botaoCadastrar.setPreferredSize(tamanhoBotoes);
 		botaoVoltar.setPreferredSize(tamanhoBotoes);
 		
@@ -200,8 +203,8 @@ public class PainelCadUsuario extends JPanel {
 		campoSobrenome.setText("");
 		campoDataNasc.setText("");
 		campoCPF.setText("");
-		campoPeso.setValue(50);
-		campoAltura.setValue(1.7);
+		campoPeso.setValue(PESO_PADRAO);
+		campoAltura.setValue(ALTURA_PADRAO);
 		campoEndereco.setText("");		
 	}
 }
