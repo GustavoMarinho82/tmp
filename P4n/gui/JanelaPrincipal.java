@@ -73,4 +73,12 @@ public class JanelaPrincipal extends JFrame {
     public PainelManutencao getPainelManutencao() {
 		return painelManutencao;
     }
+        
+	public PainelCadUsuario getPainelCadUsuario(){
+		return painelCadUsuario;
+	}
+	
+	public PainelCadLivro getPainelCadLivro() {
+		return painelCadLivro;
+	}
 }

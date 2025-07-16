@@ -7,6 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import gui.navegacao.Telas;
+import gui.util.SpringUtilities;
 
 public class PainelCadUsuario extends JPanel {
 	// ATRIBUTOS
@@ -30,6 +31,9 @@ public class PainelCadUsuario extends JPanel {
 	private JButton botaoCadastrar;
 	private JButton botaoVoltar;
 	
+	private JPanel painelFormulario;
+	private SpringLayout layout;
+	
 	private ActionListener al;
 	
 	// CONSTRUTOR
@@ -43,6 +47,15 @@ public class PainelCadUsuario extends JPanel {
 	
 	// METODOS
 	private void inicializarComponentes() {
+		titulo = new JLabel("CADASTRAR USUARIO");
+		textoNome = new JLabel("Nome:");
+		textoSobrenome = new JLabel("Sobrenome:");
+		textoDataNasc = new JLabel("Data de Nasc.:");
+		textoCPF = new JLabel("CPF:");
+		textoPeso = new JLabel("Peso (em kg):");
+		textoAltura = new JLabel("Altura (em m):");
+		textoEndereco = new JLabel("Endereco:");
+		
 		campoNome = new JTextField();
 		campoSobrenome = new JTextField();
 		campoPeso = new JSpinner(new SpinnerNumberModel(50.0, 0.3, 650.0, 0.1));
@@ -53,15 +66,142 @@ public class PainelCadUsuario extends JPanel {
 			campoDataNasc = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			campoCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));	
 		} catch (Exception e) {
-			System.err.println("");
+			System.err.println(""); // Nunca vai ser executado
 		}
+		
+		botaoCadastrar = new JButton("Cadastrar");
+		botaoVoltar = new JButton("Voltar");
+		
+		layout = new SpringLayout();
+		painelFormulario = new JPanel(layout);
+		
+		botaoCadastrar.addActionListener(al);
+		botaoVoltar.addActionListener(al);
+		
+		botaoCadastrar.setActionCommand("CADASTRAR USUARIO");
+		botaoVoltar.setActionCommand(Telas.CADASTRO.toString());
 	}
 	
 	private void configurarComponentes() {
-		System.out.println("A");
+		// FONTES
+		Font fonteTextos = new Font("Monospaced", Font.PLAIN, 16);
+		Font fonteBotoes = new Font("Monospaced", Font.PLAIN, 18);
+		
+		titulo.setFont(new Font("Monospaced", Font.BOLD, 20));
+		textoNome.setFont(fonteTextos);
+		textoSobrenome.setFont(fonteTextos);
+		textoDataNasc.setFont(fonteTextos);
+		textoCPF.setFont(fonteTextos);
+		textoPeso.setFont(fonteTextos);
+		textoAltura.setFont(fonteTextos);
+		textoEndereco.setFont(fonteTextos);
+		campoNome.setFont(fonteTextos);
+		campoSobrenome.setFont(fonteTextos);
+		campoDataNasc.setFont(fonteTextos);
+		campoCPF.setFont(fonteTextos);
+		campoPeso.setFont(fonteTextos);
+		campoAltura.setFont(fonteTextos);
+		campoEndereco.setFont(fonteTextos);
+		
+		botaoCadastrar.setFont(fonteBotoes);
+		botaoVoltar.setFont(fonteBotoes);
+		
+		// DIMENSOES
+		Dimension tamanhoBotoes = new Dimension(172, 50);
+		
+		textoNome.setFont(fonteTextos);
+		textoSobrenome.setFont(fonteTextos);
+		textoDataNasc.setFont(fonteTextos);
+		textoCPF.setFont(fonteTextos);
+		textoPeso.setFont(fonteTextos);
+		textoAltura.setFont(fonteTextos);
+		textoEndereco.setFont(fonteTextos);
+		
+		botaoCadastrar.setPreferredSize(tamanhoBotoes);
+		botaoVoltar.setPreferredSize(tamanhoBotoes);
+		
+		// BORDAS
+		titulo.setBorder(new EmptyBorder(10, 0, 10, 0));
+		
+		// ALINHAMENTOS
+		titulo.setHorizontalAlignment(JLabel.CENTER);
 	}
 	
 	private void montarLayout() {
-	System.out.println("A");
+		setLayout(new BorderLayout());
+		setBorder(new EmptyBorder(20, 20, 10, 20));
+    
+		montarFormulario();
+            
+		add(titulo, BorderLayout.NORTH);
+		add(painelFormulario, BorderLayout.CENTER);
+		add(enveloparBotoes(botaoVoltar, botaoCadastrar), BorderLayout.SOUTH);
+
+	}
+	
+	private void montarFormulario() {
+		painelFormulario.setBorder(new EmptyBorder(10, 20, 20, 30));
+	
+		painelFormulario.add(textoNome);
+		painelFormulario.add(campoNome);
+		painelFormulario.add(textoSobrenome);
+		painelFormulario.add(campoSobrenome);
+		painelFormulario.add(textoDataNasc);
+		painelFormulario.add(campoDataNasc);
+		painelFormulario.add(textoCPF);
+		painelFormulario.add(campoCPF);
+		painelFormulario.add(textoPeso);
+		painelFormulario.add(campoPeso);
+		painelFormulario.add(textoAltura);
+		painelFormulario.add(campoAltura);
+		painelFormulario.add(textoEndereco);
+		painelFormulario.add(campoEndereco);
+		
+		SpringUtilities.makeCompactGrid(painelFormulario, 7, 2, 5, 5, 5, 5);
+	}
+	
+	private JPanel enveloparBotoes(JButton botao1, JButton botao2) {
+		JPanel painel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		painel.add(botao1);
+		painel.add(botao2);
+		return painel;
+	}
+	
+	public String getNome() {
+		return campoNome.getText();
+	}
+	
+	public String getSobrenome() {
+		return campoSobrenome.getText();
+	}
+	
+	public String getDataNasc() {
+		return campoDataNasc.getText();
+	}
+	
+	public String getCPF() {
+		return campoCPF.getText();
+	}
+	
+	public float getPeso() {
+		return ((Number) campoPeso.getValue()).floatValue();
+	}
+	
+	public float getAltura() {
+		return ((Number) campoAltura.getValue()).floatValue();
+	}
+	
+	public String getEndereco() {
+		return campoEndereco.getText();
+	}
+	
+	public void resetarCampos() {
+		campoNome.setText("");
+		campoSobrenome.setText("");
+		campoDataNasc.setText("");
+		campoCPF.setText("");
+		campoPeso.setValue(50);
+		campoAltura.setValue(1.7);
+		campoEndereco.setText("");		
 	}
 }

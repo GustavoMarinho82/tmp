@@ -3,9 +3,11 @@ package controle;
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
+import java.time.format.DateTimeParseException;
 import java.util.Properties;
 
-import entidade.Biblioteca;
+import entidade.*;
+import entidade.validacao.*;
 import entidade.excecao.*;
 import gui.*;
 import gui.navegacao.Telas;
@@ -55,6 +57,14 @@ public class Controlador implements ActionListener {
 			
 			case "SELECIONAR ARQUIVOS":
 				selecionarArqs();
+				break;
+				
+			case "CADASTRAR USUARIO":
+				cadastrarUsuario();
+				break;
+				
+			case "CADASTRAR LIVRO":
+				cadastrarLivro();
 				break;
 				
 			default: 
@@ -353,10 +363,59 @@ public class Controlador implements ActionListener {
 		}
 	}
 	
+	private void cadastrarUsuario() {
+		PainelCadUsuario pcu = janela.getPainelCadUsuario();
+		
+		try {
+			biblioteca.cadastraUsuario(new Usuario(
+				pcu.getNome(), 
+				pcu.getSobrenome(), 
+				ValidaData.toLocalDate(pcu.getDataNasc()),
+				pcu.getCPF(),
+				pcu.getPeso(),
+				pcu.getAltura(),
+				pcu.getEndereco()
+			));
+			
+			pcu.resetarCampos();
+			exibirSucesso("Usuario cadastrado com sucesso!");
+			
+		} catch (IllegalArgumentException e) {
+			exibirErro(e.getMessage());
+		
+		} catch (DateTimeParseException e) {
+			exibirErro("Data de nascimento invalida!");
+		}
+	}
+	
+	private void cadastrarLivro() {
+		PainelCadLivro pcl = janela.getPainelCadLivro();
+		
+		try {
+			biblioteca.cadastraLivro(new Livro(
+				pcl.getCodigo(), 
+				pcl.getTitulo(), 
+				pcl.getCategoria(),
+				pcl.getDisponiveis(),
+				0
+			));
+			
+			pcl.resetarCampos();
+			exibirSucesso("Livro cadastrado com sucesso!");
+			
+		} catch (IllegalArgumentException e) {
+			exibirErro(e.getMessage());
+		}
+	}
+	
 	private int exibirDialogo(String titulo, String mensagem, Object[] opcoes) {
 		return JOptionPane.showOptionDialog(janela, mensagem, titulo, JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoes, null);
 	}
 	
+	public void exibirSucesso(String mensagem) {
+		JOptionPane.showMessageDialog(janela, mensagem, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+	}
+    
 	private void exibirErro(String mensagem) {
 		JOptionPane.showMessageDialog(janela, mensagem, "ERRO", JOptionPane.ERROR_MESSAGE); 
 	}
