@@ -10,11 +10,15 @@ import entidade.*;
 import entidade.validacao.*;
 import entidade.excecao.*;
 import gui.*;
+import gui.tabela.*;
 import gui.navegacao.Telas;
 
 public class Controlador implements ActionListener {
 	// ATRIBUTOS
 	private JanelaPrincipal janela;
+	private ModeloTabelaUsuarios modeloTabelaUsuarios;
+	private ModeloTabelaLivros modeloTabelaLivros;
+	
 	private Biblioteca biblioteca;
 	
 	private File arqUsuarios;
@@ -25,8 +29,10 @@ public class Controlador implements ActionListener {
 	private int periodoDevolucao;
 	
 	// CONSTRUTOR
-	public Controlador(JanelaPrincipal janela) {
+	public Controlador(JanelaPrincipal janela, ModeloTabelaUsuarios modeloTabelaUsuarios, ModeloTabelaLivros modeloTabelaLivros) {
 		this.janela = janela;
+		this.modeloTabelaUsuarios = modeloTabelaUsuarios;
+		this.modeloTabelaLivros = modeloTabelaLivros;
 	}
 	
 	// METODOS
@@ -65,6 +71,13 @@ public class Controlador implements ActionListener {
 				
 			case "CADASTRAR LIVRO":
 				cadastrarLivro();
+				break;
+			
+			case "RELATORIO":
+				modeloTabelaUsuarios.atualizarTabela(biblioteca.getUsuarios());
+				modeloTabelaLivros.atualizarTabela(biblioteca.getLivros());
+				janela.trocarPainel(Telas.RELATORIO.toString());
+				
 				break;
 				
 			default: 
@@ -282,8 +295,8 @@ public class Controlador implements ActionListener {
 				}
 				
 			} else {
-				Object[] opcoes = {arqUsuarios.getName(), "Escolher outro arquivo"};
-				int escolha = exibirDialogo("Carregar", "Carregar os dados de usuarios em: ", opcoes);
+				Object[] opcoes = {arqLivros.getName(), "Escolher outro arquivo"};
+				int escolha = exibirDialogo("Carregar", "Carregar os dados de usuarios de: ", opcoes);
 			
 				switch (escolha) {
 					case 0:
@@ -320,8 +333,8 @@ public class Controlador implements ActionListener {
 				}
 				
 			} else {
-				Object[] opcoes = {arqUsuarios.getName(), "Escolher outro arquivo"};
-				int escolha = exibirDialogo("Carregar", "Carregar os dados de livros em: ", opcoes);
+				Object[] opcoes = {arqLivros.getName(), "Escolher outro arquivo"};
+				int escolha = exibirDialogo("Carregar", "Carregar os dados de livros de: ", opcoes);
 			
 				switch (escolha) {
 					case 0:
@@ -396,8 +409,7 @@ public class Controlador implements ActionListener {
 				pcl.getCodigo(), 
 				pcl.getTitulo(), 
 				pcl.getCategoria(),
-				pcl.getDisponiveis(),
-				0
+				pcl.getDisponiveis()
 			));
 			
 			pcl.resetarCampos();

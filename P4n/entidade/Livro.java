@@ -18,14 +18,18 @@ public class Livro implements Serializable {
 	private ArrayList<EmprestPara> hist = new ArrayList<>();
 
 	// CONSTRUTOR
-	public Livro(int codigo, String titulo, String categoria, int disponiveis, int emprestados) {
+	public Livro(int codigo, String titulo, String categoria, int disponiveis) {
 		setCodigo(codigo);
 		setTitulo(titulo);
 		setCategoria(categoria);
 		setDisponiveis(disponiveis);
-		setEmprestados(emprestados);
 	}
 
+	public Livro(int codigo, String titulo, String categoria, int disponiveis, int emprestados) {
+		this(codigo, titulo, categoria, disponiveis);
+		setEmprestados(emprestados);
+	}
+	
 	// GETTERS
 	public int getCodigo() {
 		return codigo;

@@ -4,9 +4,11 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 import entidade.excecao.*;
+import entidade.validacao.*;
 
 public class Biblioteca {
 	// ATRIBUTOS
@@ -42,7 +44,12 @@ public class Biblioteca {
 
 		return usuario;
 	}
+		
+	public ArrayList<Usuario> getUsuarios() {
+		return new ArrayList<>(cadUsuarios.values());
 
+	}
+	
 	public Livro getLivro(int codigo) throws LivroNaoCadastradoEx {
 		Livro livro = cadLivros.get(codigo);
 
@@ -52,7 +59,11 @@ public class Biblioteca {
 
 		return livro;
 	}	
-
+	
+	public ArrayList<Livro> getLivros() {
+		return new ArrayList<>(cadLivros.values());
+	}
+	
 	// OUTROS METODOS
 	public void cadastraUsuario(Usuario usuario) {
 		if (cadUsuarios.containsKey(usuario.getNumCPF())) {

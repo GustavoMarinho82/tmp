@@ -7,20 +7,25 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import controle.Controlador;
+import gui.tabela.*;
 import gui.navegacao.Telas;
 
 public class JanelaPrincipal extends JFrame {
 	// ATRIBUTOS
-	private Controlador controlador;
 	private JPanel paineis;
 	private BufferedImage icone;
 	
+	private ModeloTabelaUsuarios modeloTabelaUsuarios;
+	private ModeloTabelaLivros modeloTabelaLivros;
+	private Controlador controlador;
+		
 	private PainelInicial painelInicial;
 	private PainelPrincipal painelPrincipal;
 	private PainelManutencao painelManutencao;
 	private PainelCadastro painelCadastro;
 	private PainelCadUsuario painelCadUsuario;
 	private PainelCadLivro painelCadLivro;
+	private PainelRelatorio painelRelatorio;
 	
 	// CONSTRUTOR
 	public JanelaPrincipal() {
@@ -37,13 +42,17 @@ public class JanelaPrincipal extends JFrame {
 	
 	// METODOS
 	private void inicializarComponentes() {
-		controlador = new Controlador(this);
+		modeloTabelaUsuarios = new ModeloTabelaUsuarios();
+		modeloTabelaLivros = new ModeloTabelaLivros();
+		controlador = new Controlador(this, modeloTabelaUsuarios, modeloTabelaLivros);
+		
 		painelInicial = new PainelInicial(controlador);
 		painelPrincipal = new PainelPrincipal(controlador);
 		painelManutencao = new PainelManutencao(controlador);
 		painelCadastro = new PainelCadastro(controlador);
 		painelCadUsuario = new PainelCadUsuario(controlador);
 		painelCadLivro = new PainelCadLivro(controlador);
+		painelRelatorio = new PainelRelatorio(controlador, modeloTabelaUsuarios, modeloTabelaLivros);
 	
 		paineis = new JPanel(new CardLayout());
 		paineis.add(painelInicial, Telas.INICIAL.toString());
@@ -52,6 +61,7 @@ public class JanelaPrincipal extends JFrame {
 		paineis.add(painelCadastro, Telas.CADASTRO.toString());
 		paineis.add(painelCadUsuario, Telas.CAD_USUARIO.toString());
 		paineis.add(painelCadLivro, Telas.CAD_LIVRO.toString());
+		paineis.add(painelRelatorio, Telas.RELATORIO.toString());
 		
 		try {
 			icone = ImageIO.read(new File ("imagens/IconeLivro.png"));
