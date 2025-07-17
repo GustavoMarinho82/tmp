@@ -33,10 +33,11 @@ public class JanelaPrincipal extends JFrame {
 		inicializarComponentes();
 		
 		setSize(500, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setIconImage(icone);
-
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		setContentPane(paineis);
 	}
 	

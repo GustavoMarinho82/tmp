@@ -47,7 +47,7 @@ public class PainelPrincipal extends JPanel {
 		
 		botaoManutencao.setActionCommand(Telas.MANUTENCAO.toString());
 		botaoCadastro.setActionCommand(Telas.CADASTRO.toString());
-		botaoEmprestimo.setActionCommand(Telas.EMPRESTIMO.toString());
+		botaoEmprestimo.setActionCommand("FAZER EMPRESTIMO/DEVOLUCAO");
 		botaoRelatorio.setActionCommand(Telas.RELATORIO.toString());
 	}
 	

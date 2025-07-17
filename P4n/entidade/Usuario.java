@@ -40,7 +40,7 @@ public class Usuario extends Pessoa implements Serializable {
 		
 		for (int i = 0; i < hist.size(); i++) {
 			Emprest registro = hist.get(i);
-			histFormatado.append(String.format("\n Registro %d - Cod. do livro: %d | Data do emprestimo: %s | Data da devolucao: %s", 
+			histFormatado.append(String.format("\nRegistro %d - Cod. do livro: %d | Data do emprestimo: %s | Data da devolucao: %s", 
 				(i+1), 
 				registro.getCodLivro(),
 				registro.getDataEmprestimoFormatada(), 

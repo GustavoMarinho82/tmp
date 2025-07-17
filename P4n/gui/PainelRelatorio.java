@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableColumn;
+import java.time.LocalDate;
 
 import gui.tabela.*;
 import gui.navegacao.Telas;
@@ -86,11 +88,22 @@ public class PainelRelatorio extends JPanel {
 		titulo.setHorizontalAlignment(JLabel.CENTER);
 		
 		// OUTROS
+		RendererCustomizado rendererCustomizado = new RendererCustomizado();
+		
+		tabelaUsuarios.setDefaultRenderer(LocalDate.class, rendererCustomizado);
+		tabelaUsuarios.setDefaultRenderer(Float.class, rendererCustomizado);
+		
 		tabelaUsuarios.getTableHeader().setReorderingAllowed(false);
 		tabelaUsuarios.setFillsViewportHeight(true);
+		tabelaUsuarios.setAutoCreateRowSorter(true);
 		tabelaLivros.getTableHeader().setReorderingAllowed(false);
 		tabelaLivros.setFillsViewportHeight(true);
+		tabelaLivros.setAutoCreateRowSorter(true);
 		
+		TableColumn colunaHistorico = tabelaUsuarios.getColumnModel().getColumn(6);
+
+		colunaHistorico.setCellRenderer(new RendererBotao());
+		colunaHistorico.setCellEditor(new EditorBotao(al));
 	}
 	
 	private void montarLayout() {

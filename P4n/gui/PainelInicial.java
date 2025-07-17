@@ -36,8 +36,8 @@ public class PainelInicial extends JPanel {
 	
 	// METODOS
 	private void inicializarComponentes() {
-		textoPolitica = new JLabel("Iniciar com uma politica personalizada (de config.properties): ");
-		textoArqs = new JLabel("Carregar dados dos arquivos de cadastros (se preferir): ");
+		textoPolitica = new JLabel("Iniciar com uma politica personalizada (config.properties):");
+		textoArqs = new JLabel("Carregar dados dos arquivos de cadastros (opcional):");
 		textoArqUsuarios = new JLabel("Arquivo: Nao definido");
 		textoArqLivros = new JLabel("Arquivo: Nao definido");
 		
@@ -90,12 +90,12 @@ public class PainelInicial extends JPanel {
 		textoPolitica.setBorder(new EmptyBorder(0, 0, 10, 0));
 		botaoSim.setBorder(bordaBotoes);
 		botaoNao.setBorder(bordaBotoes);
-		textoArqs.setBorder(new EmptyBorder(10, 0, 5, 0));
+		textoArqs.setBorder(new EmptyBorder(10, 0, 7, 0));
 	}
 	
 	private void montarLayout() {
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(20, 20, 10, 20));
+		setBorder(new EmptyBorder(30, 30, 10, 30));
 
 		painel.add(textoPolitica);
 		painel.add(botaoSim);
@@ -132,7 +132,7 @@ public class PainelInicial extends JPanel {
 		textoArqLivros.setText("Arquivo: " + nomeArq);
 	}
 	
-	public boolean ativadaPolPersonalizada() {
+	public boolean ativadaPoliticaPersonalizada() {
 		return botaoSim.isSelected();
 	}
 }

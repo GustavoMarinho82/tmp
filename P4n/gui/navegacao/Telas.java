@@ -14,4 +14,14 @@ public enum Telas {
 	public String toString() {
 		return this.name();
 	}
+	
+	public static boolean isTela(String nome) {
+		for (Telas tela : Telas.values()) {
+			if (tela.toString().equalsIgnoreCase(nome)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 } 
