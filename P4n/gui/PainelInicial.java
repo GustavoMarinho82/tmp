@@ -83,7 +83,7 @@ public class PainelInicial extends JPanel {
 		
 		botaoArqUsuarios.setPreferredSize(tamanhoBotoesArqs);
 		botaoArqLivros.setPreferredSize(tamanhoBotoesArqs);
-		botaoIniciar.setPreferredSize(new Dimension(475, 50));
+		botaoIniciar.setPreferredSize(new Dimension(350, 50));
 		
 		// BORDAS
 		EmptyBorder bordaBotoes = new EmptyBorder(0, 10, 10, 0);
