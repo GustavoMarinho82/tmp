@@ -1,7 +1,11 @@
-/* Codigo retirado do site docs.oracle.com
+/* CODIGO RETIRADO DO SITE docs.oracle.com
  * Ele foi referenciado no tutorial "How to Use SpringLayout" (https://docs.oracle.com/javase/tutorial/uiswing/layout/spring.html)
  * E se encontra na integra em https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/SpringGridProject/src/layout/SpringUtilities.java
  */
+
+
+
+
 
 /*
  * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.

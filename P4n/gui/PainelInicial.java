@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import gui.navegacao.Telas;
+import controle.Acao;
+import gui.navegacao.Tela;
 
 public class PainelInicial extends JPanel {
 	// ATRIBUTOS
@@ -58,9 +59,9 @@ public class PainelInicial extends JPanel {
 		botaoArqLivros.addActionListener(al);
 		botaoIniciar.addActionListener(al);
 		
-		botaoArqUsuarios.setActionCommand("SELECIONAR ARQ USUARIOS");
-		botaoArqLivros.setActionCommand("SELECIONAR ARQ LIVROS");
-		botaoIniciar.setActionCommand("INICIAR BIBLIOTECA");
+		botaoArqUsuarios.setActionCommand(Acao.SELECIONAR_ARQ_USUARIOS.toString());
+		botaoArqLivros.setActionCommand(Acao.SELECIONAR_ARQ_LIVROS.toString());
+		botaoIniciar.setActionCommand(Acao.INICIAR_BIBLIOTECA.toString());
 	}
 	
 	private void configurarComponentes() {
@@ -82,7 +83,7 @@ public class PainelInicial extends JPanel {
 		
 		botaoArqUsuarios.setPreferredSize(tamanhoBotoesArqs);
 		botaoArqLivros.setPreferredSize(tamanhoBotoesArqs);
-		botaoIniciar.setPreferredSize(new Dimension(350, 50));
+		botaoIniciar.setPreferredSize(new Dimension(475, 50));
 		
 		// BORDAS
 		EmptyBorder bordaBotoes = new EmptyBorder(0, 10, 10, 0);
@@ -90,12 +91,12 @@ public class PainelInicial extends JPanel {
 		textoPolitica.setBorder(new EmptyBorder(0, 0, 10, 0));
 		botaoSim.setBorder(bordaBotoes);
 		botaoNao.setBorder(bordaBotoes);
-		textoArqs.setBorder(new EmptyBorder(10, 0, 7, 0));
+		textoArqs.setBorder(new EmptyBorder(20, 0, 7, 0));
 	}
 	
 	private void montarLayout() {
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(30, 30, 10, 30));
+		setBorder(new EmptyBorder(35, 60, 10, 60));
 
 		painel.add(textoPolitica);
 		painel.add(botaoSim);

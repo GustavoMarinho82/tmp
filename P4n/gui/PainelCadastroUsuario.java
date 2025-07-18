@@ -2,14 +2,16 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
-import gui.navegacao.Telas;
+import controle.Acao;
+import gui.navegacao.Tela;
 import gui.util.SpringUtilities;
 
-public class PainelCadUsuario extends JPanel {
+public class PainelCadastroUsuario extends JPanel {
 	// ATRIBUTOS
 	private final double PESO_PADRAO = 50;
 	private final double ALTURA_PADRAO = 1.7;
@@ -40,7 +42,7 @@ public class PainelCadUsuario extends JPanel {
 	private ActionListener al;
 	
 	// CONSTRUTOR
-	public PainelCadUsuario(ActionListener al) {
+	public PainelCadastroUsuario(ActionListener al) {
 		super();
 		this.al = al;
 		inicializarComponentes();
@@ -68,7 +70,8 @@ public class PainelCadUsuario extends JPanel {
 		try {
 			campoDataNasc = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			campoCPF = new JFormattedTextField(new MaskFormatter("###.###.###-##"));	
-		} catch (Exception e) {
+		
+		} catch (ParseException e) {
 			System.err.println(""); // Nunca vai ser executado
 		}
 		
@@ -81,8 +84,8 @@ public class PainelCadUsuario extends JPanel {
 		botaoCadastrar.addActionListener(al);
 		botaoVoltar.addActionListener(al);
 		
-		botaoCadastrar.setActionCommand("CADASTRAR USUARIO");
-		botaoVoltar.setActionCommand(Telas.CADASTRO.toString());
+		botaoCadastrar.setActionCommand(Acao.CADASTRAR_USUARIO.toString());
+		botaoVoltar.setActionCommand(Tela.CADASTRO.toString());
 	}
 	
 	private void configurarComponentes() {
@@ -132,14 +135,13 @@ public class PainelCadUsuario extends JPanel {
 	
 	private void montarLayout() {
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(20, 20, 10, 20));
+		setBorder(new EmptyBorder(20, 30, 10, 30));
     
 		montarFormulario();
             
 		add(titulo, BorderLayout.NORTH);
 		add(painelFormulario, BorderLayout.CENTER);
 		add(enveloparBotoes(botaoVoltar, botaoCadastrar), BorderLayout.SOUTH);
-
 	}
 	
 	private void montarFormulario() {

@@ -1,15 +1,15 @@
 package gui.tabela;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class EditorBotao extends DefaultCellEditor {
+public abstract class EditorBotao extends DefaultCellEditor {
 	// ATRIBUTOS
-	private String texto;
-	private boolean pressionado;
+	protected String texto;
+	protected boolean pressionado;
 	
-	private JButton botao;
+	protected JButton botao;
 	
 	private ActionListener al;
 
@@ -19,7 +19,7 @@ public class EditorBotao extends DefaultCellEditor {
 		this.al = al;
 		
 		botao = new JButton();
-		botao.setOpaque(true);
+		botao.setFont(new Font("Monospaced", Font.BOLD, 10));
 		
 		botao.addActionListener(new ActionListener() {
 			@Override
@@ -32,16 +32,7 @@ public class EditorBotao extends DefaultCellEditor {
 
 	// METODOS
 	@Override
-	public Component getTableCellEditorComponent(JTable tabela, Object dado, boolean selecionado, int linha, int coluna) {
-		texto = (dado == null) ? "" : dado.toString();
-		
-		botao.setText(texto);
-		botao.setActionCommand("MOSTRAR HISTORICO USUARIO - " + linha);
-
-		pressionado = true;
-		
-		return botao;
-	}
+	public abstract Component getTableCellEditorComponent(JTable tabela, Object dado, boolean selecionado, int linha, int coluna);
 
 	@Override
 	public Object getCellEditorValue() {

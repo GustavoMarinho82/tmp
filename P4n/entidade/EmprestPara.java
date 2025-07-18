@@ -51,8 +51,8 @@ public class EmprestPara implements Serializable {
 
 	// SETTERS
 	public void setCPF(long CPF) {
-		if (!ValidaCPF.isCPF(Long.toString(CPF))) {
-			throw new IllegalArgumentException("Formato ou valor do CPF eh invalido! Formatos aceitos: 12345678901, 123.456.789-01, 123.456.789/01.");
+		if (!ValidaCPF.isCPF(CPF)) {
+			throw new IllegalArgumentException("CPF invalido!");
 		}
 
 		this.CPF = CPF;

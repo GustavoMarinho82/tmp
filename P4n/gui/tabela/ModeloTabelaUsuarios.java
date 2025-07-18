@@ -10,7 +10,7 @@ import entidade.validacao.*;
 
 public class ModeloTabelaUsuarios extends AbstractTableModel {
 	// ATRIBUTOS
-	private final String[] NOMES_COLUNAS = {"Nome", "Nasc.", "CPF", "Peso", "Altura", "Endereco", "Historico"};
+	private final String[] NOMES_COLUNAS = {"Nome", "Nascimento", "CPF", "Peso", "Altura", "Endereco", "Historico"};
 	private ArrayList<Usuario> usuarios = new ArrayList<>();
 	
 	// CONSTRUTOR

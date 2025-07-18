@@ -134,7 +134,6 @@ public class Biblioteca {
 		livro.empresta();
 		livro.addUsuarioHist(usuario.getNumCPF(), agora, null);
 		usuario.addLivroHist(livro.getCodigo(), agora, null);
-		usuario.aumentarNumLivrosEmprestados();
 	}
 
 	public void devolveLivro(Usuario usuario, Livro livro) throws NenhumaCopiaEmprestadaEx {

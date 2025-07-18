@@ -5,9 +5,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import entidade.validacao.ValidaData;
 
-public class RendererCustomizado extends DefaultTableCellRenderer {
+public class RenderizadorCustomizado extends DefaultTableCellRenderer {
 	// CONSTRUTOR
-	public RendererCustomizado() {
+	public RenderizadorCustomizado() {
 		super();
 	}
 
@@ -19,6 +19,9 @@ public class RendererCustomizado extends DefaultTableCellRenderer {
 			
 		} else if (dado instanceof Float) {
 			setText(String.valueOf((float) dado).replace(",", "."));
+			
+		} else if (dado instanceof Integer) {
+			setText(String.valueOf((int) dado));
 			
 		} else {
 			super.setValue(dado);

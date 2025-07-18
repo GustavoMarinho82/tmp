@@ -1,13 +1,13 @@
 package gui.tabela;
 
-import java.awt.Component;
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 
-public class RendererBotao extends JButton implements TableCellRenderer {
+public class RenderizadorBotao extends JButton implements TableCellRenderer {
 	// CONSTRUTOR
-	public RendererBotao() {
-		setOpaque(true);
+	public RenderizadorBotao() {
+		setFont(new Font("Monospaced", Font.PLAIN, 10));
 	}
 
 	// METODO

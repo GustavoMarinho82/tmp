@@ -4,12 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
 
-import gui.navegacao.Telas;
+import controle.Acao;
+import gui.navegacao.Tela;
 import gui.util.SpringUtilities;
 
-public class PainelCadLivro extends JPanel {
+public class PainelCadastroLivro extends JPanel {
 	// ATRIBUTOS
 	private final int CODIGO_PADRAO = 1;
 	private final int DISPONIVEIS_PADRAO = 0;
@@ -34,7 +34,7 @@ public class PainelCadLivro extends JPanel {
 	private ActionListener al;
 	
 	// CONSTRUTOR
-	public PainelCadLivro(ActionListener al) {
+	public PainelCadastroLivro(ActionListener al) {
 		super();
 		this.al = al;
 		inicializarComponentes();
@@ -64,8 +64,8 @@ public class PainelCadLivro extends JPanel {
 		botaoCadastrar.addActionListener(al);
 		botaoVoltar.addActionListener(al);
 		
-		botaoCadastrar.setActionCommand("CADASTRAR LIVRO");
-		botaoVoltar.setActionCommand(Telas.CADASTRO.toString());
+		botaoCadastrar.setActionCommand(Acao.CADASTRAR_LIVRO.toString());
+		botaoVoltar.setActionCommand(Tela.CADASTRO.toString());
 	}
 	
 	private void configurarComponentes() {
@@ -106,7 +106,7 @@ public class PainelCadLivro extends JPanel {
 	
 	private void montarLayout() {
 		setLayout(new BorderLayout());
-		setBorder(new EmptyBorder(20, 20, 10, 20));
+		setBorder(new EmptyBorder(20, 30, 10, 30));
     
 		montarFormulario();
             

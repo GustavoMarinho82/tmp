@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import gui.navegacao.Telas;
+import gui.navegacao.Tela;
 
 public class PainelPrincipal extends JPanel {
 	// ATRIBUTOS
@@ -35,7 +35,7 @@ public class PainelPrincipal extends JPanel {
 		
 		botaoManutencao = new JButton("Manutencao");
 		botaoCadastro = new JButton("Cadastro");
-		botaoEmprestimo = new JButton("Emprestimo");
+		botaoEmprestimo = new JButton("Emprestimo / Devolucao");
 		botaoRelatorio = new JButton("Relatorio");
 		
 		painel = new JPanel(new GridLayout(5, 1));
@@ -45,10 +45,10 @@ public class PainelPrincipal extends JPanel {
 		botaoEmprestimo.addActionListener(al);
 		botaoRelatorio.addActionListener(al);
 		
-		botaoManutencao.setActionCommand(Telas.MANUTENCAO.toString());
-		botaoCadastro.setActionCommand(Telas.CADASTRO.toString());
-		botaoEmprestimo.setActionCommand("FAZER EMPRESTIMO/DEVOLUCAO");
-		botaoRelatorio.setActionCommand(Telas.RELATORIO.toString());
+		botaoManutencao.setActionCommand(Tela.MANUTENCAO.toString());
+		botaoCadastro.setActionCommand(Tela.CADASTRO.toString());
+		botaoEmprestimo.setActionCommand(Tela.EMPRESTIMO_DEVOLUCAO.toString());
+		botaoRelatorio.setActionCommand(Tela.RELATORIO.toString());
 	}
 	
 	private void configurarComponentes() {

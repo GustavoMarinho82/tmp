@@ -8,7 +8,7 @@ import javax.swing.table.TableColumn;
 import java.time.LocalDate;
 
 import gui.tabela.*;
-import gui.navegacao.Telas;
+import gui.navegacao.Tela;
 
 public class PainelRelatorio extends JPanel {
 	// ATRIBUTOS
@@ -53,7 +53,7 @@ public class PainelRelatorio extends JPanel {
 		
 		botaoVoltar.addActionListener(al);
 
-		botaoVoltar.setActionCommand(Telas.PRINCIPAL.toString());
+		botaoVoltar.setActionCommand(Tela.PRINCIPAL.toString());
 	}
 	
 	private void configurarComponentes() {
@@ -72,12 +72,14 @@ public class PainelRelatorio extends JPanel {
 		// DIMENSOES
 		int larguraNumeros = 10;
 		
-		tabelaUsuarios.getColumnModel().getColumn(0).setPreferredWidth(125);
-		tabelaUsuarios.getColumnModel().getColumn(1).setPreferredWidth(30);
-		tabelaUsuarios.getColumnModel().getColumn(2).setPreferredWidth(55);
+		tabelaUsuarios.getColumnModel().getColumn(0).setPreferredWidth(115);
+		tabelaUsuarios.getColumnModel().getColumn(1).setPreferredWidth(35);
+		tabelaUsuarios.getColumnModel().getColumn(2).setPreferredWidth(60);
 		tabelaUsuarios.getColumnModel().getColumn(3).setPreferredWidth(larguraNumeros);
 		tabelaUsuarios.getColumnModel().getColumn(4).setPreferredWidth(larguraNumeros);
 		tabelaUsuarios.getColumnModel().getColumn(5).setPreferredWidth(45);
+		tabelaUsuarios.getColumnModel().getColumn(6).setPreferredWidth(30);
+		tabelaLivros.getColumnModel().getColumn(5).setPreferredWidth(30);
 		
 		botaoVoltar.setPreferredSize(new Dimension(350, 50));
 
@@ -88,22 +90,27 @@ public class PainelRelatorio extends JPanel {
 		titulo.setHorizontalAlignment(JLabel.CENTER);
 		
 		// OUTROS
-		RendererCustomizado rendererCustomizado = new RendererCustomizado();
+		RenderizadorBotao renderizadorBotao = new RenderizadorBotao();
+		TableColumn colunaHistoricoUsuarios = tabelaUsuarios.getColumnModel().getColumn(6);
+		TableColumn colunaHistoricoLivros = tabelaLivros.getColumnModel().getColumn(5);
+				
+		colunaHistoricoUsuarios.setCellRenderer(renderizadorBotao);
+		colunaHistoricoUsuarios.setCellEditor(new EditorBotaoUsuarios(al));
+		colunaHistoricoLivros.setCellRenderer(renderizadorBotao);
+		colunaHistoricoLivros.setCellEditor(new EditorBotaoLivros(al));
 		
-		tabelaUsuarios.setDefaultRenderer(LocalDate.class, rendererCustomizado);
-		tabelaUsuarios.setDefaultRenderer(Float.class, rendererCustomizado);
-		
+		RenderizadorCustomizado renderizadorCustomizado = new RenderizadorCustomizado();
+
+		tabelaUsuarios.setDefaultRenderer(LocalDate.class, renderizadorCustomizado);
+		tabelaUsuarios.setDefaultRenderer(Float.class, renderizadorCustomizado);
+		tabelaLivros.setDefaultRenderer(Integer.class, renderizadorCustomizado);
+				
 		tabelaUsuarios.getTableHeader().setReorderingAllowed(false);
 		tabelaUsuarios.setFillsViewportHeight(true);
 		tabelaUsuarios.setAutoCreateRowSorter(true);
 		tabelaLivros.getTableHeader().setReorderingAllowed(false);
 		tabelaLivros.setFillsViewportHeight(true);
 		tabelaLivros.setAutoCreateRowSorter(true);
-		
-		TableColumn colunaHistorico = tabelaUsuarios.getColumnModel().getColumn(6);
-
-		colunaHistorico.setCellRenderer(new RendererBotao());
-		colunaHistorico.setCellEditor(new EditorBotao(al));
 	}
 	
 	private void montarLayout() {

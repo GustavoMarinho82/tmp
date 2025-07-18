@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import gui.navegacao.Telas;
+import controle.Acao;
+import gui.navegacao.Tela;
 
 public class PainelCadastro extends JPanel {
 	// ATRIBUTOS
@@ -45,10 +46,10 @@ public class PainelCadastro extends JPanel {
 		botaoSalvar.addActionListener(al);
 		botaoVoltar.addActionListener(al);
 		
-		botaoCadUsuario.setActionCommand(Telas.CAD_USUARIO.toString());
-		botaoCadLivro.setActionCommand(Telas.CAD_LIVRO.toString());
-		botaoSalvar.setActionCommand("SALVAR CADASTROS");
-		botaoVoltar.setActionCommand(Telas.PRINCIPAL.toString());
+		botaoCadUsuario.setActionCommand(Tela.CADASTRO_USUARIO.toString());
+		botaoCadLivro.setActionCommand(Tela.CADASTRO_LIVRO.toString());
+		botaoSalvar.setActionCommand(Acao.SALVAR_CADASTROS.toString());
+		botaoVoltar.setActionCommand(Tela.PRINCIPAL.toString());
 	}
 	
 	private void configurarComponentes() {

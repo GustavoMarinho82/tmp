@@ -107,8 +107,8 @@ public class Pessoa implements Serializable {
 	}
 
 	public void setNumCPF(long numCPF) {
-		if (!ValidaCPF.isCPF(Long.toString(numCPF))) {
-			throw new IllegalArgumentException("Formato ou valor do CPF eh invalido! Formatos aceitos: 12345678901, 123.456.789-01, 123.456.789/01.");
+		if (!ValidaCPF.isCPF(numCPF)) {
+			throw new IllegalArgumentException("CPF invalido!");
 		}
 
 		this.numCPF = numCPF;

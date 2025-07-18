@@ -10,7 +10,7 @@ public class Usuario extends Pessoa implements Serializable {
 	
 	private String endereco;
 	private ArrayList<Emprest> hist = new ArrayList<>();
-	private int numLivrosEmprestados; // Numero de livros que estao sendo emprestados ao usuario atualmente
+	private int numLivrosEmprestados = 0; // Numero de livros que estao sendo emprestados ao usuario atualmente
 
 	// CONSTRUTOR
 	public Usuario(String nome, String sobreNome, LocalDate dataNasc, String CPF, float peso, float altura, String endereco) {

@@ -55,9 +55,13 @@ public class ValidaCPF {
 		return true;
 	}
 	
+	public static boolean isCPF(long numCPF) {
+		return ((numCPF > 0) && isCPF(String.format("%011d", numCPF)));
+	}
+	
 	public static long toLong(String CPF) {
 		if (!isCPF(CPF)) {
-			throw new IllegalArgumentException("Formato ou valor do CPF invalido! Formatos aceitos: 12345678901, 123.456.789-01, 123.456.789/01");
+			throw new IllegalArgumentException("CPF invalido!");
 		}
 
 		long cpfLong = 0;
@@ -75,7 +79,7 @@ public class ValidaCPF {
 		String CPF = String.format("%011d", numCPF);
 
 		if (!isCPF(CPF)) {
-			throw new IllegalArgumentException("Formato ou valor do CPF invalido! Formatos aceitos: 12345678901, 123.456.789-01, 123.456.789/01");
+			throw new IllegalArgumentException("CPF invalido!");
 		}
 
 		return CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." + CPF.substring(6, 9) + "-" + CPF.substring(9, 11);

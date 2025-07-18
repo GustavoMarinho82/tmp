@@ -64,7 +64,7 @@ public class Livro implements Serializable {
 		
 		for (int i = 0; i < hist.size(); i++) {
 			EmprestPara registro = hist.get(i);
-			histFormatado.append(String.format("\n Registro %d - CPF do usuario: %s | Data do emprestimo: %s | Data da devolucao: %s", 
+			histFormatado.append(String.format("\nRegistro %d - CPF do usuario: %s | Data do emprestimo: %s | Data da devolucao: %s", 
 				(i+1), 
 				registro.getCPFFormatado(),
 				registro.getDataEmprestimoFormatada(), 

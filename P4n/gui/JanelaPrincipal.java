@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import controle.Controlador;
 import gui.tabela.*;
-import gui.navegacao.Telas;
+import gui.navegacao.Tela;
 
 public class JanelaPrincipal extends JFrame {
 	// ATRIBUTOS
@@ -23,8 +23,9 @@ public class JanelaPrincipal extends JFrame {
 	private PainelPrincipal painelPrincipal;
 	private PainelManutencao painelManutencao;
 	private PainelCadastro painelCadastro;
-	private PainelCadUsuario painelCadUsuario;
-	private PainelCadLivro painelCadLivro;
+	private PainelCadastroUsuario painelCadastroUsuario;
+	private PainelCadastroLivro painelCadastroLivro;
+	private PainelEmprestimoDevolucao painelEmprestimoDevolucao;
 	private PainelRelatorio painelRelatorio;
 	
 	// CONSTRUTOR
@@ -32,7 +33,7 @@ public class JanelaPrincipal extends JFrame {
 		super("Gerenciador de Biblioteca");
 		inicializarComponentes();
 		
-		setSize(500, 500);
+		setSize(600, 500);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setIconImage(icone);
@@ -51,18 +52,20 @@ public class JanelaPrincipal extends JFrame {
 		painelPrincipal = new PainelPrincipal(controlador);
 		painelManutencao = new PainelManutencao(controlador);
 		painelCadastro = new PainelCadastro(controlador);
-		painelCadUsuario = new PainelCadUsuario(controlador);
-		painelCadLivro = new PainelCadLivro(controlador);
+		painelCadastroUsuario = new PainelCadastroUsuario(controlador);
+		painelCadastroLivro = new PainelCadastroLivro(controlador);
+		painelEmprestimoDevolucao = new PainelEmprestimoDevolucao(controlador);
 		painelRelatorio = new PainelRelatorio(controlador, modeloTabelaUsuarios, modeloTabelaLivros);
 	
 		paineis = new JPanel(new CardLayout());
-		paineis.add(painelInicial, Telas.INICIAL.toString());
-		paineis.add(painelPrincipal, Telas.PRINCIPAL.toString());
-		paineis.add(painelManutencao, Telas.MANUTENCAO.toString());
-		paineis.add(painelCadastro, Telas.CADASTRO.toString());
-		paineis.add(painelCadUsuario, Telas.CAD_USUARIO.toString());
-		paineis.add(painelCadLivro, Telas.CAD_LIVRO.toString());
-		paineis.add(painelRelatorio, Telas.RELATORIO.toString());
+		paineis.add(painelInicial, Tela.INICIAL.toString());
+		paineis.add(painelPrincipal, Tela.PRINCIPAL.toString());
+		paineis.add(painelManutencao, Tela.MANUTENCAO.toString());
+		paineis.add(painelCadastro, Tela.CADASTRO.toString());
+		paineis.add(painelCadastroUsuario, Tela.CADASTRO_USUARIO.toString());
+		paineis.add(painelCadastroLivro, Tela.CADASTRO_LIVRO.toString());
+		paineis.add(painelEmprestimoDevolucao, Tela.EMPRESTIMO_DEVOLUCAO.toString());
+		paineis.add(painelRelatorio, Tela.RELATORIO.toString());
 		
 		try {
 			icone = ImageIO.read(new File ("imagens/IconeLivro.png"));
@@ -85,11 +88,15 @@ public class JanelaPrincipal extends JFrame {
 		return painelManutencao;
     }
         
-	public PainelCadUsuario getPainelCadUsuario(){
-		return painelCadUsuario;
+	public PainelCadastroUsuario getPainelCadastroUsuario(){
+		return painelCadastroUsuario;
 	}
 	
-	public PainelCadLivro getPainelCadLivro() {
-		return painelCadLivro;
+	public PainelCadastroLivro getPainelCadastroLivro() {
+		return painelCadastroLivro;
+	}
+	
+	public PainelEmprestimoDevolucao getPainelEmprestimoDevolucao() {
+		return painelEmprestimoDevolucao;
 	}
 }
